@@ -1,5 +1,5 @@
 {
-  "name": "next-themed-template",
+  "name": "next-auto-detect-theme",
   "version": "0.0.1",
   "description": "A template for using Next.js with auto-detected theming for styled-components.",
   "main": "index.js",
