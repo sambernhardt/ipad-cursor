@@ -1,0 +1,31 @@
+{
+  "name": "next-themed-template",
+  "version": "0.0.1",
+  "description": "A template for using Next.js with auto-detected theming for styled-components.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "keywords": [
+    "next.js",
+    "next",
+    "styled-components",
+    "theme"
+  ],
+  "author": "sdbernhardt@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "next": "^9.0.5",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "styled-components": "^4.3.2",
+    "styled-reset": "^4.0.0",
+    "use-dark-mode": "^2.3.1",
+    "isomorphic-unfetch": "^3.0.0"
+  },
+  "devDependencies": {
+    "babel-plugin-styled-components": "^1.10.6"
+  }
+}
