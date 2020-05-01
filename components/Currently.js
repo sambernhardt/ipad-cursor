@@ -1,6 +1,8 @@
+import { useContext } from 'react';
 import styled from 'styled-components';
 
 import { Subheader } from './Text';
+import CursorContext from './CursorContext';
 
 const Container = styled.div`
   background: ${({ theme }) => theme.colors.foreground};
@@ -18,11 +20,24 @@ const Header = styled.h2`
 `;
 
 const Hero = () => {
+    const context = useContext(CursorContext);
+    const handleMouseEnter = e => {
+        console.log("Hey")
+        context.setCurrentElement(e.target)
+    }
+    const handleMouseLeave = e => {
+        context.removeCurrentElement()
+    }
+
     return (
         <div>
             <Subheader>Currently</Subheader>
-            <Container>
-                
+            <Container
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              onClick={() => alert("Hey")}
+            >  
+              Test
             </Container>
         </div>
     )

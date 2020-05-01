@@ -4,8 +4,8 @@ import CursorContext from './CursorContext';
 
 const Dot = styled.div`
     position: absolute;
-    transition: transform .2s;
-    transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1);
+    pointer-events: none;
+    /* transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1); */
 `;
 
 const Block = styled.div`
@@ -14,8 +14,9 @@ const Block = styled.div`
     position: absolute;
     background: #555;
     border-radius: 4px;
-    transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1);
-
+    pointer-events: none;
+    /* transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1); */
+    /* transform: scale(0); */
 `;
 
 const getRelativePosition = (pageCoords, element) => {
@@ -28,18 +29,38 @@ const getRelativePosition = (pageCoords, element) => {
 const Cursor = () => {
     // const [ transitioning, setTransitioning ] = useState(false);
     const context = useContext(CursorContext);
-    const { pos, currentElement, doneTransitioning, speed } = context;
+    const { pos, currentElement, transitionEnter, transitionExit, speed } = context;
     let wiggle = {x: 0, y: 0};
 
-    let blockStyles = {
-        transform: "scale(0)"
-    };
+    let blockStyles;
     let dotStyles;
     
     let d = speed;
 
-    // if hovering
-    if (currentElement) {
+    if (currentElement && transitionEnter) {
+        // Entering
+        const amount = 20;
+        const relativePos = getRelativePosition(pos, currentElement);
+        const xMid = currentElement.clientWidth / 2;
+        const yMid = currentElement.clientHeight / 2;
+        const xMove = (relativePos.x - xMid) / currentElement.clientWidth * amount;
+        const yMove = (relativePos.y - yMid) / currentElement.clientHeight * amount;
+        dotStyles = {
+            // background: 'orange',
+            left: currentElement.offsetLeft + xMid - 12 + "px",
+            top: currentElement.offsetTop + yMid - 12 + "px",
+            transition: speed + "s",
+            opacity: 0
+        }
+        blockStyles = {
+            left: currentElement.offsetLeft + wiggle.x,
+            top: currentElement.offsetTop + wiggle.y,
+            height: currentElement.offsetHeight + "px",
+            width: currentElement.offsetWidth + "px",
+            transition: speed + "s"
+        }
+    } else if (currentElement && !transitionEnter) {
+        // Entered
         const amount = 20;
         const relativePos = getRelativePosition(pos, currentElement);
         const xMid = currentElement.clientWidth / 2;
@@ -51,30 +72,47 @@ const Cursor = () => {
             y: yMove
         }
         dotStyles = {
+            // background: 'red',
             left: currentElement.offsetLeft + xMid - 12 + "px",
             top: currentElement.offsetTop + yMid - 12 + "px",
-            transform: "scale(0)",
-            transition: `transform ${d + 1}s, left ${d}s, top ${d}s`
+            transform: 'scale(0)',
+            transition: speed + "s"
         }
-        if (doneTransitioning) {
-            // console.log("done transitioning")
-            blockStyles = {
-                left: currentElement.offsetLeft + wiggle.x,
-                top: currentElement.offsetTop + wiggle.y,
-                height: currentElement.offsetHeight + "px",
-                width: currentElement.offsetWidth + "px",
-                transition: `transform ${d}s, left ${d}s, top ${d}s, width: ${d}s, height ${d}s`
-            }
-        } else {
-            // console.log("not done transitioning")
-            blockStyles = {
-                left: currentElement.offsetLeft + wiggle.x,
-                top: currentElement.offsetTop + wiggle.y,
-                height: currentElement.offsetHeight + "px",
-                width: currentElement.offsetWidth + "px",
-                transitionDuration: `${d}s`
-                // transition: `transform ${f}s, left ${f}s, top ${f}s, width: ${f}s, height ${f}s`
-            }
+        blockStyles = {
+            left: currentElement.offsetLeft + wiggle.x,
+            top: currentElement.offsetTop + wiggle.y,
+            height: currentElement.offsetHeight + "px",
+            width: currentElement.offsetWidth + "px",
+        }
+    } else if (transitionExit) {
+        // Exiting
+        // const amount = 20;
+        // const relativePos = getRelativePosition(pos, currentElement);
+        // const xMid = currentElement.clientWidth / 2;
+        // const yMid = currentElement.clientHeight / 2;
+        // const xMove = (relativePos.x - xMid) / currentElement.clientWidth * amount;
+        // const yMove = (relativePos.y - yMid) / currentElement.clientHeight * amount;
+        // wiggle = {
+        //     x: xMove, 
+        //     y: yMove
+        // }
+        dotStyles = {
+            // background: 'purple',
+            transform: 'scale(1)',
+            transition: speed + "s"
+        }
+        blockStyles = {
+            transition: speed + "s",
+            transform: 'scale(0)'
+        }
+    } else if (!transitionExit) {
+        // Exited
+        dotStyles = {
+            // background: 'blue'
+        }
+        blockStyles = {
+            transform: 'scale(0)',
+            opacity: 0
         }
     }
 

@@ -18,14 +18,15 @@ const Container = styled.div`
 const HoverLink = (props) => {
     const [ hovering, hoveringSet ] = useState(false);
     const [ style, setStyle ] = useState({});
+    
     const context = useContext(CursorContext);
-
     const handleMouseEnter = e => {
         context.setCurrentElement(e.target)
     }
     const handleMouseLeave = e => {
         context.removeCurrentElement()
     }
+
     return (
         <Container
             onMouseEnter={handleMouseEnter}

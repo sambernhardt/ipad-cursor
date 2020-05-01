@@ -19,7 +19,8 @@ const Home = ({ data }) => {
   const [ mousePos, setMousePos ] = useState({ x: 0, y: 0 });
   const [ currentElement, setCurrentElement ] = useState();
   const [ previousScrollPos, setPreviousScrollPos ] = useState(0);
-  const [ doneTransitioning, setDoneTransitioning ] = useState(false);
+  const [ transitionEnter, setTransitionEnter ] = useState(false);
+  const [ transitionExit, setTransitionExit ] = useState(false);
   const [ speed, setSpeed ] = useState(3);
   
   const handleMouseMove = ({ pageX, pageY }) => {
@@ -27,31 +28,46 @@ const Home = ({ data }) => {
   };
 
   useEffect(() => {
-    var mspeed = new MouseSpeed();
-    mspeed.init(() => {
-        var speedX = mspeed.speedX;
-        var speedY = mspeed.speedY;
-        // do anything you want with speed values
-        setSpeed(1 / clamp(Math.abs(speedX + speedY), 1, 5));
-    });
+    // var mspeed = new MouseSpeed();
+    // mspeed.init(() => {
+    //     var speedX = mspeed.speedX;
+    //     var speedY = mspeed.speedY;
+    //     // do anything you want with speed values
+    //     setSpeed(1 / clamp(Math.abs(speedX + speedY), 1, 5));
+    // });
   }, [])
 
   const contextValue = {
     pos: mousePos,
     setCurrentElement: (el) => {
       setCurrentElement(el)
+      
       if (!currentElement) {
-        setTimeout(() => setDoneTransitioning(true), 300)
+        // console.log("Start enter transition")
+        setTransitionEnter(true)
+        setTimeout(() => {
+          setTransitionEnter(false)
+          // console.log("Stop enter transition")
+        }, speed * 1000)
       } else {
-        setDoneTransitioning(true)
+        setTransitionEnter(false)
+        console.log("Moved to another")
+        // setDoneTransitioning(true)
       }
+
     },
     removeCurrentElement: () => {
-      setDoneTransitioning(false)
+      // console.log("Start exit transition")
+      setTransitionExit(true)
       setCurrentElement(null)
+      setTimeout(() => {
+        setTransitionExit(false)
+        // console.log("Stop exit transition")
+      }, (speed + 1) * 1000)
     },
     currentElement: currentElement,
-    doneTransitioning: doneTransitioning,
+    transitionEnter: transitionEnter,
+    transitionExit: transitionExit,
     speed: speed
   };
 
