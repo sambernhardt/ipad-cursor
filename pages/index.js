@@ -21,7 +21,8 @@ const Home = ({ data }) => {
   const [ previousScrollPos, setPreviousScrollPos ] = useState(0);
   const [ transitionEnter, setTransitionEnter ] = useState(false);
   const [ transitionExit, setTransitionExit ] = useState(false);
-  const [ speed, setSpeed ] = useState(3);
+  const [ exitOrigin, setExitOrigin ] = useState("");
+  const [ speed, setSpeed ] = useState(.5);
   
   const handleMouseMove = ({ pageX, pageY }) => {
     setMousePos({x: pageX, y: pageY})
@@ -65,10 +66,12 @@ const Home = ({ data }) => {
         // console.log("Stop exit transition")
       }, (speed + 1) * 1000)
     },
+    setExitOrigin: setExitOrigin,
     currentElement: currentElement,
     transitionEnter: transitionEnter,
     transitionExit: transitionExit,
-    speed: speed
+    speed: speed,
+    exitOrigin: exitOrigin
   };
 
   return (

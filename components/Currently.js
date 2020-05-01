@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { Subheader } from './Text';
 import CursorContext from './CursorContext';
+import { getRelativePosition } from '../utils';
 
 const Container = styled.div`
   background: ${({ theme }) => theme.colors.foreground};
@@ -22,11 +23,27 @@ const Header = styled.h2`
 const Hero = () => {
     const context = useContext(CursorContext);
     const handleMouseEnter = e => {
-        console.log("Hey")
         context.setCurrentElement(e.target)
     }
-    const handleMouseLeave = e => {
+    const handleMouseLeave = ({pageX, pageY, ...e}) => {
         context.removeCurrentElement()
+        const innerPosition = getRelativePosition({x: pageX, y: pageY}, e.target);
+
+        const xMid = e.target.clientWidth / 2;
+        const yMid = e.target.clientHeight / 2;
+        let origin = [];
+        
+        if (innerPosition.x < xMid) {
+            origin[0] = "0%"
+        } else {
+          origin[0] = "100%"
+        }
+        if (innerPosition.y < yMid) {
+            origin[1] = "0%"
+        } else {
+            origin[1] = "100%"
+        }
+        context.setExitOrigin(origin.join(" "))
     }
 
     return (
@@ -35,7 +52,6 @@ const Hero = () => {
             <Container
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
-              onClick={() => alert("Hey")}
             >  
               Test
             </Container>

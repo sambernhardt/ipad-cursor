@@ -1,10 +1,13 @@
 import { useContext, useState } from 'react';
 import styled from 'styled-components';
 import CursorContext from './CursorContext';
+import { getRelativePosition } from '../utils';
+
 
 const Dot = styled.div`
     position: absolute;
     pointer-events: none;
+    transform-origin: 50% 50%;
     /* transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1); */
 `;
 
@@ -19,17 +22,10 @@ const Block = styled.div`
     /* transform: scale(0); */
 `;
 
-const getRelativePosition = (pageCoords, element) => {
-    return {
-        x: pageCoords.x - element.offsetLeft,
-        y: pageCoords.y - element.offsetTop
-    }
-}
-
 const Cursor = () => {
     // const [ transitioning, setTransitioning ] = useState(false);
     const context = useContext(CursorContext);
-    const { pos, currentElement, transitionEnter, transitionExit, speed } = context;
+    const { pos, currentElement, transitionEnter, transitionExit, speed, exitOrigin } = context;
     let wiggle = {x: 0, y: 0};
 
     let blockStyles;
@@ -49,15 +45,16 @@ const Cursor = () => {
             // background: 'orange',
             left: currentElement.offsetLeft + xMid - 12 + "px",
             top: currentElement.offsetTop + yMid - 12 + "px",
-            transition: speed + "s",
+            transitionDuration: speed + "s",
             opacity: 0
         }
         blockStyles = {
-            left: currentElement.offsetLeft + wiggle.x,
-            top: currentElement.offsetTop + wiggle.y,
+            left: currentElement.offsetLeft + (currentElement.clientWidth / 2) + wiggle.x,
+            top: currentElement.offsetTop + (currentElement.clientHeight / 2)  + wiggle.y,
+            transform: 'translate(-50%, -50%',
             height: currentElement.offsetHeight + "px",
             width: currentElement.offsetWidth + "px",
-            transition: speed + "s"
+            transitionDuration: speed + "s"
         }
     } else if (currentElement && !transitionEnter) {
         // Entered
@@ -72,38 +69,30 @@ const Cursor = () => {
             y: yMove
         }
         dotStyles = {
-            // background: 'red',
-            left: currentElement.offsetLeft + xMid - 12 + "px",
-            top: currentElement.offsetTop + yMid - 12 + "px",
+            background: 'red',
+            // left: currentElement.offsetLeft + xMid - 12 + "px",
+            // top: currentElement.offsetTop + yMid - 12 + "px",
             transform: 'scale(0)',
-            transition: speed + "s"
+            // transition: `transform ${speed}s, left ${speed}s, top ${speed}s`,
         }
         blockStyles = {
-            left: currentElement.offsetLeft + wiggle.x,
-            top: currentElement.offsetTop + wiggle.y,
+            left: currentElement.offsetLeft + (currentElement.clientWidth / 2) + wiggle.x,
+            top: currentElement.offsetTop + (currentElement.clientHeight / 2)  + wiggle.y,
+            transform: 'translate(-50%, -50%',
             height: currentElement.offsetHeight + "px",
             width: currentElement.offsetWidth + "px",
         }
     } else if (transitionExit) {
         // Exiting
-        // const amount = 20;
-        // const relativePos = getRelativePosition(pos, currentElement);
-        // const xMid = currentElement.clientWidth / 2;
-        // const yMid = currentElement.clientHeight / 2;
-        // const xMove = (relativePos.x - xMid) / currentElement.clientWidth * amount;
-        // const yMove = (relativePos.y - yMid) / currentElement.clientHeight * amount;
-        // wiggle = {
-        //     x: xMove, 
-        //     y: yMove
-        // }
         dotStyles = {
-            // background: 'purple',
+            background: 'purple',
             transform: 'scale(1)',
-            transition: speed + "s"
+            // transition: `transform ${speed}s, left ${speed}s`
         }
         blockStyles = {
-            transition: speed + "s",
-            transform: 'scale(0)'
+            transition: `height ${speed}s, top ${speed}s, width ${speed}s`,
+            // transform: 'scale(.5)',
+            transformOrigin: exitOrigin
         }
     } else if (!transitionExit) {
         // Exited
@@ -111,8 +100,8 @@ const Cursor = () => {
             // background: 'blue'
         }
         blockStyles = {
-            transform: 'scale(0)',
-            opacity: 0
+            // transform: 'scale(.5)',
+            transformOrigin: '50% 50%',
         }
     }
 
