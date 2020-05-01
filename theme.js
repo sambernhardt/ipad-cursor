@@ -1,6 +1,7 @@
 const light = {
   colors: {
     background: '#fff',
+    foreground: '#eee',
     body: '#222',
     black: '#222',
     purple: '#11144C',
@@ -13,7 +14,8 @@ const light = {
 const dark = {
   colors: {
     body: '#fff',
-    background: '#222',
+    background: 'black',
+    foreground: '#222',
     purple: '#11144C',
     red: '#E16262',
     green: '#3A9679',
