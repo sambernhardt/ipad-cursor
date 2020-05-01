@@ -8,43 +8,38 @@ import Currently from '../components/Currently';
 import Cursor from '../components/Cursor';
 import Context from '../components/CursorContext';
 
+var MouseSpeed = require("mouse-speed");
+
+function clamp(num, min, max) {
+  return num <= min ? min : num >= max ? max : num;
+}
+
 const Home = ({ data }) => {
   const [state, setState] = useState({});
   const [ mousePos, setMousePos ] = useState({ x: 0, y: 0 });
   const [ currentElement, setCurrentElement ] = useState();
   const [ previousScrollPos, setPreviousScrollPos ] = useState(0);
   const [ doneTransitioning, setDoneTransitioning ] = useState(false);
+  const [ speed, setSpeed ] = useState(3);
   
   const handleMouseMove = ({ pageX, pageY }) => {
     setMousePos({x: pageX, y: pageY})
   };
 
   useEffect(() => {
-    var isScrolling;
-    window.addEventListener("scroll", e => {
-      // // Clear our timeout throughout the scroll
-      // window.clearTimeout( isScrolling );
-      // // Set a timeout to run after scrolling ends
-      // isScrolling = setTimeout(function() {
-      //   console.log( 'Scrolling has stopped.' );
-      //   setPreviousScrollPos({y: e.scrollY});
-      // }, 66);
-      // console.log(mousePos.y + (window.scrollY - previousScrollPos))
-      // setMousePos({x: mousePos.x, y: mousePos.y + (window.scrollY - previousScrollPos)});
-    })
-    return () => {
-      window.removeEventListener("scroll", () => {
-
-      })
-    };
-  }, []);
+    var mspeed = new MouseSpeed();
+    mspeed.init(() => {
+        var speedX = mspeed.speedX;
+        var speedY = mspeed.speedY;
+        // do anything you want with speed values
+        setSpeed(1 / clamp(Math.abs(speedX + speedY), 1, 5));
+    });
+  }, [])
 
   const contextValue = {
     pos: mousePos,
     setCurrentElement: (el) => {
       setCurrentElement(el)
-
-      // are you transitioning into a clickable element from nothing
       if (!currentElement) {
         setTimeout(() => setDoneTransitioning(true), 300)
       } else {
@@ -56,7 +51,8 @@ const Home = ({ data }) => {
       setCurrentElement(null)
     },
     currentElement: currentElement,
-    doneTransitioning: doneTransitioning
+    doneTransitioning: doneTransitioning,
+    speed: speed
   };
 
   return (

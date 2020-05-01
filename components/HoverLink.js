@@ -7,7 +7,7 @@ const Container = styled.div`
     padding: 8px 16px;
     margin-bottom: 24px;
     position: relative;
-    /* cursor: none; */
+    cursor: none;
     &:hover {
     }
     &:active {

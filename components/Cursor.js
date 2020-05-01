@@ -12,7 +12,7 @@ const Block = styled.div`
     width: 32px;
     height: 32px;
     position: absolute;
-    background: rgba(255,255,255,.3);
+    background: #555;
     border-radius: 4px;
     transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1);
 
@@ -28,15 +28,15 @@ const getRelativePosition = (pageCoords, element) => {
 const Cursor = () => {
     // const [ transitioning, setTransitioning ] = useState(false);
     const context = useContext(CursorContext);
-    const { pos, currentElement, doneTransitioning } = context;
+    const { pos, currentElement, doneTransitioning, speed } = context;
     let wiggle = {x: 0, y: 0};
 
     let blockStyles = {
         transform: "scale(0)"
     };
     let dotStyles;
-    const d = .3;
-    const f = 3;
+    
+    let d = speed;
 
     // if hovering
     if (currentElement) {
@@ -54,10 +54,10 @@ const Cursor = () => {
             left: currentElement.offsetLeft + xMid - 12 + "px",
             top: currentElement.offsetTop + yMid - 12 + "px",
             transform: "scale(0)",
-            transition: 'transform .3s, left .3s, top .3s'
+            transition: `transform ${d + 1}s, left ${d}s, top ${d}s`
         }
         if (doneTransitioning) {
-            console.log("done transitioning")
+            // console.log("done transitioning")
             blockStyles = {
                 left: currentElement.offsetLeft + wiggle.x,
                 top: currentElement.offsetTop + wiggle.y,
@@ -66,13 +66,13 @@ const Cursor = () => {
                 transition: `transform ${d}s, left ${d}s, top ${d}s, width: ${d}s, height ${d}s`
             }
         } else {
-            console.log("not done transitioning")
+            // console.log("not done transitioning")
             blockStyles = {
                 left: currentElement.offsetLeft + wiggle.x,
                 top: currentElement.offsetTop + wiggle.y,
                 height: currentElement.offsetHeight + "px",
                 width: currentElement.offsetWidth + "px",
-                transitionDuration: '.3s'
+                transitionDuration: `${d}s`
                 // transition: `transform ${f}s, left ${f}s, top ${f}s, width: ${f}s, height ${f}s`
             }
         }
