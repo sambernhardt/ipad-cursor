@@ -11,6 +11,20 @@ const Dot = styled.div`
     transform-origin: 50% 50%;
 `;
 
+const Debug = styled.div`
+    background: green;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: flex-start;
+    padding: 8px 16px;
+    > * {
+        min-width: 200px;
+    }
+`;
+
 const Block = styled.div`
     width: 24px;
     height: 24px;
@@ -25,34 +39,41 @@ const Block = styled.div`
 
 const Cursor = () => {
     const context = useContext(CursorContext);
-    const { pos, currentElement, status, speed, elementType } = context;
+    const { pos, currentElement, status, elementType } = context;
     
     const [ hovering, setHovering ] = useState(false);
     const [ exited, setExited ] = useState(false);
+    const [ tweens, setTweens ] = useState([]);
     const [ shape, setShape ] = useState("");
     const blockRef = useRef();
-    let blockStyles;
+    let blockStyles = {
+        left: pos.x - 12,
+        top: pos.y - 12,
+        width: '24px',
+        height: '24px',
+    };
     
     // status
     useEffect(() => {
 
         if (status == "entering" || status == "shifting") {
             if (elementType == "block") {
-                // gsap.killTweensOf(blockRef.current);
-                gsap.to(blockRef.current, {
-                    duration: 1,
+                gsap.killTweensOf(blockRef.current);
+                // gsap.set(blockRef.current, {clearProps: 'all'});
+                let snapTo = gsap.to(blockRef.current, {
+                    duration: .5,
                     ease: "elastic.out(1, 1)",
                     left: currentElement.offsetLeft,
                     top: currentElement.offsetTop,
                     height: currentElement.offsetHeight + "px",
                     width: currentElement.offsetWidth + "px",
-                    // borderRadius: '4px',
-                    // clearProps: "borderRadius",
+                    borderRadius: '4px',
                     onComplete: () => {
-                        // setHovering(true)
+                        setHovering(true)
                         setShape("block")
                     }
                 });
+                setTweens([snapTo]);
             }
 
             //else {
@@ -68,92 +89,78 @@ const Cursor = () => {
             // }
             // setExited(false)
         } else if (status == "exiting") {
-            // console.log("Here")
-            // let snapBackToCursor = gsap.to(blockRef.current, {
-            //     duration: .5,
-            //     ease: "elastic.out(1, 1)",
-            //     width: '24px',
-            //     height: '24px',
-            //     left: pos.x - 12,
-            //     top: pos.y - 12,
-            //     borderRadius: '50%',
-            //     onComplete: () => handleArrivedAtCursor(tweens.length + 1),
-            //     // paused: true,
-            // });
+            console.log(tweens)
+            // tweens[tweens.length - 1].kill();
+            // gsap.killTweensOf(blockRef.current);
+
+            gsap.killTweensOf(blockRef.current);
+            gsap.set(blockRef.current, {clearProps: 'all'});
+
+            setHovering(false);
         }
     }, [currentElement, status]);
 
-    const handleArrivedAtCursor = () => {
-        if (!gsap.isTweening(blockRef.current)) {
-            setExited(true)
-            setShape("");
-        }
-    }
-
     useEffect(() => {
         if (status == "exiting" && !exited) {
-            // console.log("exited")
-        //     let snapBackToCursor = gsap.to(blockRef.current, {
-        //         duration: 5,
-        //         ease: "elastic.out(1, 1)",
-        //         width: '24px',
-        //         height: '24px',
-        //         left: pos.x - 12,
-        //         top: pos.y - 12,
-        //         borderRadius: '50%',
-        //         onComplete: () => handleArrivedAtCursor(tweens.length + 1),
-        //         // paused: true,
-        //     });
             
-        //     setHovering(false);
+            // setTimeout(() => {
+            //     let snapBackToCursor = gsap.to(blockRef.current, {
+            //         duration: 2,
+            //         ease: "elastic.out(1, 1)",
+            //         width: '24px',
+            //         height: '24px',
+            //         left: pos.x - 12,
+            //         top: pos.y - 12,
+            //         borderRadius: '50%',
+            //         onComplete: () => {
+            //             console.log("done")
+            //             // if (!gsap.isTweening(blockRef.current)) {
+            //             //     setExited(true)
+            //             //     setShape("");
+            //             // }
+            //         },
+
+            //     });
+                
+            // }, 1000)
+            
+            // setHovering(false);
         //     // snapBackToCursor.restart();
         }
-    }, [status, pos]);
+    }, [pos]);
 
-    // if (elementType == "block" && currentElement) {
-    // //     // console.log("hovering: " + currentElement)
-    // //     const amount = 10;
-    // //     const relativePos = getRelativePosition(pos, currentElement);
-    // //     const xMid = currentElement.clientWidth / 2;
-    // //     const yMid = currentElement.clientHeight / 2;
-    // //     const xMove = (relativePos.x - xMid) / currentElement.clientWidth * amount;
-    // //     const yMove = (relativePos.y - yMid) / currentElement.clientHeight * amount;
-    // //     wiggle = {
-    // //         x: xMove, 
-    // //         y: yMove
-    // //     }
+    if (hovering && currentElement) {
+        const amount = 10;
+        const relativePos = getRelativePosition(pos, currentElement);
+        const xMid = currentElement.clientWidth / 2;
+        const yMid = currentElement.clientHeight / 2;
+        const xMove = (relativePos.x - xMid) / currentElement.clientWidth * amount;
+        const yMove = (relativePos.y - yMid) / currentElement.clientHeight * amount;
 
-    // //     blockStyles = {
-    // //         left: currentElement.offsetLeft + wiggle.x,
-    // //         top: currentElement.offsetTop + wiggle.y,
-    // //         height: currentElement.offsetHeight + "px",
-    // //         width: currentElement.offsetWidth + "px"
-    // //     }
-    // //     dotStyles = {
-    // //         // opacity: 0
-    // //     }
-    // // } else if (elementType == "text") {
-    // //     blockStyles = {
-    // //         left: pos.x,
-    // //         top: pos.y - 12,
-    // //     }
-    // } else {
-    //     blockStyles = {
-    //         left: pos.x - 12,
-    //         top: pos.y - 12,
-    //     }
-    // }
-
-    if (!currentElement) {
         blockStyles = {
-            left: pos.x - 12,
-            top: pos.y - 12,
-        }    
+            left: currentElement.offsetLeft + xMove,
+            top: currentElement.offsetTop + yMove,
+            height: currentElement.offsetHeight + "px",
+            width: currentElement.offsetWidth + "px",
+        }
+    } else {
+        
     }
 
     return (
         <div>
-            <Block ref={blockRef} style={blockStyles} className={shape} />
+            <Debug>
+                <span>{JSON.stringify({pos})}</span>
+                <span>{JSON.stringify({currentElement: currentElement ? true: false})}</span>
+                <span>{JSON.stringify({status})}</span>
+               <span> {JSON.stringify({elementType})}</span>
+               <span> {JSON.stringify({hovering})}</span>
+            </Debug>
+            <Block
+                ref={blockRef}
+                style={blockStyles}
+                className={shape}
+            />
         </div>
     )
 }
