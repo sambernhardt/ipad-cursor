@@ -5,11 +5,14 @@ import { getRelativePosition } from '../utils';
 import CursorContext from './CursorContext';
 
 const Container = styled.div`
+    /* background: rgba(255,0,0,.4); */
     padding: 8px 16px;
     margin-bottom: 24px;
     position: relative;
     cursor: none;
+    transition-duration: .2s;
     &:hover {
+        transform: scale(1.1);
     }
     &:active {
         color: red;

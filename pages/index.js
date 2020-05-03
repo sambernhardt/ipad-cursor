@@ -22,7 +22,7 @@ const Home = ({ data }) => {
   const [ transitionEnter, setTransitionEnter ] = useState(false);
   const [ transitionExit, setTransitionExit ] = useState(false);
   const [ exitOrigin, setExitOrigin ] = useState("");
-  const [ speed, setSpeed ] = useState(.5);
+  const [ speed, setSpeed ] = useState(.3);
   
   const handleMouseMove = ({ pageX, pageY }) => {
     setMousePos({x: pageX, y: pageY})
@@ -41,8 +41,10 @@ const Home = ({ data }) => {
   const contextValue = {
     pos: mousePos,
     setCurrentElement: (el) => {
+      if (el.isSameNode(currentElement)) {
+        console.log("Is the same")
+      }
       setCurrentElement(el)
-      
       if (!currentElement) {
         // console.log("Start enter transition")
         setTransitionEnter(true)
@@ -64,7 +66,7 @@ const Home = ({ data }) => {
       setTimeout(() => {
         setTransitionExit(false)
         // console.log("Stop exit transition")
-      }, (speed + 1) * 1000)
+      }, (speed) * 1000)
     },
     setExitOrigin: setExitOrigin,
     currentElement: currentElement,
@@ -79,10 +81,12 @@ const Home = ({ data }) => {
       <Main>
         <Context.Provider value={contextValue}>
           <Cursor/>
-          <Header />
-          <Hero />
-          <Currently />
         </Context.Provider>
+        <Context.Provider value={contextValue}>
+          <Header />
+        </Context.Provider>
+        <Hero />
+        <Currently />
       </Main>
     </div>
   )

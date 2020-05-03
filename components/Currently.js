@@ -11,6 +11,8 @@ const Container = styled.div`
   min-height: 30vh;
   display: flex;
   align-items: center;
+  padding: 24px;
+  box-sizing: border-box;
   justify-content: space-between;
   margin-bottom: 24px;
   /* box-shadow: 0 0 20px rgba(0,0,0,.05); */
@@ -50,10 +52,10 @@ const Hero = () => {
         <div>
             <Subheader>Currently</Subheader>
             <Container
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
+              // onMouseEnter={handleMouseEnter}
+              // onMouseLeave={handleMouseLeave}
             >  
-              Test
+              KickUp
             </Container>
         </div>
     )

@@ -36,6 +36,7 @@ const GlobalStyle = createGlobalStyle`
     background: ${({theme}) => theme.colors.background};
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    cursor: none;
   }
   h1 {
     font-size: ${({theme}) => theme.fontSizes[3]}px;
