@@ -35,6 +35,11 @@ const Block = styled.div`
     &.block {
         border-radius: 4px;
     }
+    &.text {
+        height: 30px;
+        width: 3px;
+        border-radius: 1px;
+    }
 `;
 
 const Cursor = () => {
@@ -74,25 +79,22 @@ const Cursor = () => {
                     }
                 });
                 setTweens([snapTo]);
+            } else {
+                gsap.to(blockRef.current, {
+                    duration: .5,
+                    ease: "elastic.out(1, 1)",
+                    height: "30px",
+                    width: "3px",
+                    left: pos.x,
+                    borderRadius: '1px',
+                    onComplete: () => setShape("text")
+                });
             }
-
-            //else {
-            //     gsap.to(block, {
-            //         duration: .5,
-            //         ease: "elastic.out(1, 1)",
-            //         height: "30px",
-            //         width: "3px",
-            //         // left: pos.x,
-            //         // top: pos.y - 12,
-            //         borderRadius: '1px',
-            //     });
-            // }
             // setExited(false)
         } else if (status == "exiting") {
             // kill all current animations for the block and clear the props it has added
             gsap.killTweensOf(blockRef.current);
             // gsap.set(blockRef.current, {clearProps: 'all'});
-
             setHovering(false);
             setShape("");
         }
@@ -101,7 +103,7 @@ const Cursor = () => {
     useEffect(() => {
         if (status == "exiting" && !exited) {
             let snapBackToCursor = gsap.to(blockRef.current, {
-                duration: 2,
+                duration: .5,
                 ease: "elastic.out(1, 1)",
                 width: '24px',
                 height: '24px',
@@ -110,10 +112,6 @@ const Cursor = () => {
                 borderRadius: '50%',
                 onComplete: () => {
                     console.log("done")
-                    // if (!gsap.isTweening(blockRef.current)) {
-                    //     setExited(true)
-                    //     setShape("");
-                    // }
                 },
 
             });
@@ -131,11 +129,13 @@ const Cursor = () => {
         const xMove = (relativePos.x - xMid) / currentElement.clientWidth * amount;
         const yMove = (relativePos.y - yMid) / currentElement.clientHeight * amount;
 
-        blockStyles = {
-            left: currentElement.offsetLeft + xMove,
-            top: currentElement.offsetTop + yMove,
-            height: currentElement.offsetHeight + "px",
-            width: currentElement.offsetWidth + "px",
+        if (elementType == "block") {
+            blockStyles = {
+                left: currentElement.offsetLeft + xMove,
+                top: currentElement.offsetTop + yMove,
+                height: currentElement.offsetHeight + "px",
+                width: currentElement.offsetWidth + "px",
+            }
         }
     } else {
         
