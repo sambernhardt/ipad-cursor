@@ -1,14 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import fetch from 'isomorphic-unfetch';
 import styled from 'styled-components';
 
 import Header from '../components/Header';
 import Hero from '../components/Hero';
-import Currently from '../components/Currently';
+import ImageBlock from '../components/ImageBlock';
 import Cursor from '../components/Cursor';
 import Context from '../components/CursorContext';
-
-var MouseSpeed = require("mouse-speed");
+import { debounce } from '../utils';
 
 function clamp(num, min, max) {
   return num <= min ? min : num >= max ? max : num;
@@ -22,20 +21,34 @@ const Home = ({ data }) => {
   const [ status, setStatus ] = useState("");
   const [ elementType, setElementType ] = useState("");
   const [ exitOrigin, setExitOrigin ] = useState("");
+  const lastScroll = useRef(0);
+  // const lastScrollRef = useRef(lastScroll);
   const [ speed, setSpeed ] = useState(.3);
-  
+  const numImages = [1, 1, 1, 1, 1];
+
   const handleMouseMove = ({ pageX, pageY }) => {
     setMousePos({x: pageX, y: pageY})
   };
 
+  const handleScroll = () => {
+    // console.log(lastScroll)
+    var offset = window.scrollY - lastScroll;
+    // setMousePos({ ...mousePos, y: window.scrollY + 500})
+    // console.log(window.scrollY + " " + lastScroll);
+  }
+
+  const setScrollOffset = () => {
+    // var offset = window.scrollY - lastScroll;
+    // console.log("Save it: ")
+    // console.log(window.scrollY)
+    console.log("Setting: " + window.scrollY)
+    lastScroll.current = window.scrollY;
+  }
+
   useEffect(() => {
-    // var mspeed = new MouseSpeed();
-    // mspeed.init(() => {
-    //     var speedX = mspeed.speedX;
-    //     var speedY = mspeed.speedY;
-    //     // do anything you want with speed values
-    //     setSpeed(1 / clamp(Math.abs(speedX + speedY), 1, 5));
-    // });
+    // console.log(lastScroll)
+    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', debounce(setScrollOffset, 1000))
   }, [])
 
   const contextValue = {
@@ -44,7 +57,8 @@ const Home = ({ data }) => {
       setCurrentElement(el)
       setElementType(type)
       if (type == "text") {
-        setTextSize(window.getComputedStyle(el).fontSize)
+        let computed = window.getComputedStyle(el).fontSize;
+        setTextSize(parseFloat(computed.replace("px")))
       }
       if (!currentElement) {
         setStatus("entering")
@@ -80,6 +94,7 @@ const Home = ({ data }) => {
           <Cursor/>
           <Header />
           <Hero />
+          {numImages.map((j, i) => <ImageBlock index={i} />)}
         </Context.Provider>
         {/* <Currently /> */}
       </Main>

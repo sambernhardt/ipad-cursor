@@ -6,7 +6,7 @@ import { gsap } from 'gsap';
 import CursorContext from './CursorContext';
 import { getRelativePosition } from '../utils';
 
-const debug = false;
+const debug = true;
 
 const Debug = styled.div`
     background: green;
@@ -45,7 +45,7 @@ const CursorContainer = () => {
     const { pos, currentElement, textSize, status, elementType, setStatus } = context;
     
     const [ hovering, setHovering ] = useState(false);
-    const [ duration, setDuration ] = useState(1);
+    const [ duration, setDuration ] = useState(.5);
     const [ exited, setExited ] = useState(false);
     const [ shape, setShape ] = useState("");
     const cursorRef = useRef();
@@ -58,6 +58,8 @@ const CursorContainer = () => {
     
     // status
     useEffect(() => {
+
+
         if (status == "entering" || status == "shifting") {
             if (elementType == "block") {
                 setExited(false);
@@ -96,6 +98,7 @@ const CursorContainer = () => {
                     width: '24px',
                     height: '24px',
                     x: 0,
+                    y: 0,
                     left: pos.x - 12,
                     top: pos.y - 12,
                     borderRadius: '50%',
@@ -117,7 +120,7 @@ const CursorContainer = () => {
                 height: textSize,
                 width: "3px",
                 x: 12,
-                top: pos.y - 12,
+                y: (textSize / -2) + 10,
                 borderRadius: '1px',
                 onComplete: () => {
                     setHovering(true)
@@ -129,7 +132,7 @@ const CursorContainer = () => {
         } else if (exited) {
             gsap.killTweensOf(cursorRef.current);
             setExited(true)
-            setDuration(1);
+            setDuration(.5);
         }
     }, [pos]);
 
@@ -150,12 +153,12 @@ const CursorContainer = () => {
             }
         } else if (elementType == "text") {
             // gsap.killTweensOf(cursorRef.current);
-            baseStyles = {
-                height: textSize,
-                width: "3px",
-                left: pos.x,
-                top: pos.y - 12,
-            }
+            // baseStyles = {
+            //     height: textSize,
+            //     width: "3px",
+            //     left: pos.x,
+            //     top: pos.y - textSize,
+            // }
         }
     }
 
@@ -168,6 +171,7 @@ const CursorContainer = () => {
                 <span>{JSON.stringify({exited})}</span>
                <span> {JSON.stringify({elementType})}</span>
                <span> {JSON.stringify({hovering})}</span>
+               <span> {JSON.stringify({textSize})}</span>
             </Debug>}
             <Cursor
                 ref={cursorRef}
