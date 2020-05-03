@@ -15,7 +15,6 @@ const Header = WithHover(styled.h2`
   &::selection {
     border-radius: 2px;
     background: yellow;
-    /* color: red; */
   }
 `, 'text');
 

@@ -31,7 +31,7 @@ const Block = styled.div`
     position: absolute;
     background: #555;
     border-radius: 50%;
-    /* pointer-events: none; */
+    pointer-events: none;
     &.block {
         border-radius: 4px;
     }
@@ -89,8 +89,10 @@ const Cursor = () => {
             // }
             // setExited(false)
         } else if (status == "exiting") {
+            // kill all current animations for the block and clear the props it has added
             gsap.killTweensOf(blockRef.current);
-            gsap.set(blockRef.current, {clearProps: 'all'});
+            // gsap.set(blockRef.current, {clearProps: 'all'});
+
             setHovering(false);
             setShape("");
         }
@@ -98,27 +100,23 @@ const Cursor = () => {
 
     useEffect(() => {
         if (status == "exiting" && !exited) {
-            
-            // setTimeout(() => {
-            //     let snapBackToCursor = gsap.to(blockRef.current, {
-            //         duration: 2,
-            //         ease: "elastic.out(1, 1)",
-            //         width: '24px',
-            //         height: '24px',
-            //         left: pos.x - 12,
-            //         top: pos.y - 12,
-            //         borderRadius: '50%',
-            //         onComplete: () => {
-            //             console.log("done")
-            //             // if (!gsap.isTweening(blockRef.current)) {
-            //             //     setExited(true)
-            //             //     setShape("");
-            //             // }
-            //         },
+            let snapBackToCursor = gsap.to(blockRef.current, {
+                duration: 2,
+                ease: "elastic.out(1, 1)",
+                width: '24px',
+                height: '24px',
+                left: pos.x - 12,
+                top: pos.y - 12,
+                borderRadius: '50%',
+                onComplete: () => {
+                    console.log("done")
+                    // if (!gsap.isTweening(blockRef.current)) {
+                    //     setExited(true)
+                    //     setShape("");
+                    // }
+                },
 
-            //     });
-                
-            // }, 1000)
+            });
             
             // setHovering(false);
         //     // snapBackToCursor.restart();
