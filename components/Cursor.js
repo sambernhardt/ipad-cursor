@@ -40,8 +40,6 @@ const CursorContainer = () => {
     const { pos, currentElement, status, elementType } = context;
     
     const [ hovering, setHovering ] = useState(false);
-    const [ exited, setExited ] = useState(false);
-    const [ tweens, setTweens ] = useState([]);
     const [ shape, setShape ] = useState("");
     const cursorRef = useRef();
     let baseStyles = {
@@ -70,20 +68,8 @@ const CursorContainer = () => {
                         setShape("block")
                     }
                 });
-                setTweens([snapTo]);
             } else {
-                gsap.to(cursorRef.current, {
-                    duration: .2,
-                    ease: "elastic.out(1, 1)",
-                    height: "30px",
-                    width: "3px",
-                    borderRadius: '1px',
-                    background: 'yellow',
-                    onComplete: () => {
-                        setShape("text")
-                        setHovering(true)
-                    }
-                });
+                
             }
             // setExited(false)
         } else if (status == "exiting") {
@@ -96,7 +82,7 @@ const CursorContainer = () => {
     }, [currentElement, status]);
 
     useEffect(() => {
-        if (status == "exiting" && !exited) {
+        if (status == "exiting" && !hovering) {
             let snapBackToCursor = gsap.to(cursorRef.current, {
                 duration: .5,
                 ease: "elastic.out(1, 1)",
@@ -108,6 +94,23 @@ const CursorContainer = () => {
                 onComplete: () => {
                     console.log("Done exiting")
                 },
+            });
+        } else if (status == "entering" && elementType == "text" && !hovering) {
+            console.log("Here")
+            gsap.killTweensOf(cursorRef.current);
+            gsap.to(cursorRef.current, {
+                duration: .4,
+                ease: "elastic.out(1, 1)",
+                height: "30px",
+                width: "3px",
+                // left: pos.x,
+                // top: pos.y - 12,
+                borderRadius: '1px',
+                background: 'yellow',
+                onComplete: () => {
+                    setHovering(true)
+                    setShape("text")
+                }
             });
         }
     }, [pos]);
@@ -128,11 +131,12 @@ const CursorContainer = () => {
                 width: currentElement.offsetWidth + "px",
             }
         } else if (elementType == "text") {
+            // gsap.killTweensOf(cursorRef.current);
             baseStyles = {
                 height: "30px",
                 width: "3px",
                 background: 'green',
-                left: pos.x - 12,
+                left: pos.x,
                 top: pos.y - 12,
             }
         }
