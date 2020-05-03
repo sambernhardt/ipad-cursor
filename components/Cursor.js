@@ -30,6 +30,7 @@ const Cursor = styled.div`
     background: ${({theme}) => transparentize(.5, theme.colors.body)};
     border-radius: 50%;
     pointer-events: none;
+    z-index: -1;
     &.block {
         border-radius: 4px;
     }

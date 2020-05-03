@@ -6,6 +6,7 @@ import {light, dark} from '../theme';
 
 export default ({children}) => {
   const [mounted, setMounted] = useState(false);
+  const [ hideCursor, setHideCursor ] = useState(true);
 
   useEffect(() => {
     setMounted(true)
@@ -19,7 +20,7 @@ export default ({children}) => {
         <ThemeProvider theme={value ? dark : light}>
           <Fragment>
             {children}
-            <GlobalStyle />
+            <GlobalStyle hideCursor={hideCursor} />
           </Fragment>
         </ThemeProvider>
     </Fragment>;
@@ -36,7 +37,7 @@ const GlobalStyle = createGlobalStyle`
     background: ${({theme}) => theme.colors.background};
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* cursor: none; */
+    ${({ hideCursor }) => hideCursor && 'cursor: none;'}
   }
   h1 {
     font-size: ${({theme}) => theme.fontSizes[3]}px;

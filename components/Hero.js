@@ -20,12 +20,19 @@ const Header = WithHover(styled.div`
   }
 `, 'text');
 
+const Link = WithHover(styled.a`
+  color: blue;
+  text-decoration: none;
+  pointer: none;
+  z-index: 99;
+`, 'block')
+
 const Hero = () => {
     return (
         <Container>
             <Header style={{ fontSize: '64px' }}>Hi,</Header>
             <Header>I'm Sam, a product designer currently working at KickUp.</Header>
-            <Header style={{ fontSize: '14px' }}>And this is some small text.</Header>
+            <Header style={{ fontSize: '14px' }}>To see more of my work, check out <Link href="https://samuelbernhardt.com">my actual website.</Link></Header>
             {/* <br />
             <br />
             <br />
