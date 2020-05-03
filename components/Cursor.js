@@ -1,5 +1,7 @@
 import { useContext, useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
+import { transparentize } from 'polished';
+
 import { gsap } from 'gsap';
 import CursorContext from './CursorContext';
 import { getRelativePosition } from '../utils';
@@ -22,7 +24,7 @@ const Cursor = styled.div`
     width: 24px;
     height: 24px;
     position: absolute;
-    background: #555;
+    background: ${({theme}) => transparentize(.5, theme.colors.body)};
     border-radius: 50%;
     pointer-events: none;
     &.block {
@@ -37,7 +39,7 @@ const Cursor = styled.div`
 
 const CursorContainer = () => {
     const context = useContext(CursorContext);
-    const { pos, currentElement, status, elementType } = context;
+    const { pos, currentElement, textSize, status, elementType } = context;
     
     const [ hovering, setHovering ] = useState(false);
     const [ shape, setShape ] = useState("");
@@ -68,10 +70,7 @@ const CursorContainer = () => {
                         setShape("block")
                     }
                 });
-            } else {
-                
             }
-            // setExited(false)
         } else if (status == "exiting") {
             // kill all current animations for the block and clear the props it has added
             gsap.killTweensOf(cursorRef.current);
@@ -85,7 +84,7 @@ const CursorContainer = () => {
         if (status == "exiting" && !hovering) {
             let snapBackToCursor = gsap.to(cursorRef.current, {
                 duration: .5,
-                ease: "elastic.out(1, 1)",
+                ease: "elastic.out(1, .5)",
                 width: '24px',
                 height: '24px',
                 x: 0,
@@ -93,21 +92,19 @@ const CursorContainer = () => {
                 top: pos.y - 12,
                 borderRadius: '50%',
                 onComplete: () => {
-                    console.log("Done exiting")
+                    
                 },
             });
-        } else if (status == "entering" && elementType == "text" && !hovering) {
-            console.log("Here")
+        } else if ((status == "entering" || status == "shifting") && elementType == "text" && !hovering) {
             gsap.killTweensOf(cursorRef.current);
             gsap.to(cursorRef.current, {
-                duration: .4,
+                duration: 1,
                 ease: "elastic.out(1, 1)",
-                height: "30px",
+                height: textSize,
                 width: "3px",
                 x: 12,
                 top: pos.y - 12,
                 borderRadius: '1px',
-                background: 'yellow',
                 onComplete: () => {
                     setHovering(true)
                     setShape("text")
@@ -134,9 +131,8 @@ const CursorContainer = () => {
         } else if (elementType == "text") {
             // gsap.killTweensOf(cursorRef.current);
             baseStyles = {
-                height: "30px",
+                height: textSize,
                 width: "3px",
-                background: 'green',
                 left: pos.x,
                 top: pos.y - 12,
             }

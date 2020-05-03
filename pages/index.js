@@ -18,6 +18,7 @@ const Home = ({ data }) => {
   const [state, setState] = useState({});
   const [ mousePos, setMousePos ] = useState({ x: 0, y: 0 });
   const [ currentElement, setCurrentElement ] = useState();
+  const [ textSize, setTextSize ] = useState(12);
   const [ status, statusSet ] = useState("");
   const [ elementType, setElementType ] = useState("");
   const [ exitOrigin, setExitOrigin ] = useState("");
@@ -42,6 +43,9 @@ const Home = ({ data }) => {
     setCurrentElement: (el, type) => {
       setCurrentElement(el)
       setElementType(type)
+      if (type == "text") {
+        setTextSize(window.getComputedStyle(el).fontSize)
+      }
       if (!currentElement) {
         statusSet("entering")
       } else {
@@ -64,7 +68,8 @@ const Home = ({ data }) => {
     status: status,
     speed: speed,
     exitOrigin: exitOrigin,
-    elementType
+    elementType,
+    textSize
   };
 
   return (
