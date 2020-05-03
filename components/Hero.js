@@ -1,16 +1,23 @@
 import styled from 'styled-components';
 
+import WithHover from './WithHover';
+
 const Container = styled.div`
-  min-height: 30vh;
+  min-height: 50vh;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 24px;
 `;
 
-const Header = styled.h2`
+const Header = WithHover(styled.h2`
   font-size: 32px;
-`;
+  &::selection {
+    border-radius: 2px;
+    background: yellow;
+    /* color: red; */
+  }
+`, 'text');
 
 const Hero = () => {
     return (

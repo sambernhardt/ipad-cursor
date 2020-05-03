@@ -18,9 +18,8 @@ const Home = ({ data }) => {
   const [state, setState] = useState({});
   const [ mousePos, setMousePos ] = useState({ x: 0, y: 0 });
   const [ currentElement, setCurrentElement ] = useState();
-  const [ previousScrollPos, setPreviousScrollPos ] = useState(0);
-  const [ transitionEnter, setTransitionEnter ] = useState(false);
-  const [ transitionExit, setTransitionExit ] = useState(false);
+  const [ status, statusSet ] = useState("");
+  const [ elementType, setElementType ] = useState("");
   const [ exitOrigin, setExitOrigin ] = useState("");
   const [ speed, setSpeed ] = useState(.3);
   
@@ -40,40 +39,32 @@ const Home = ({ data }) => {
 
   const contextValue = {
     pos: mousePos,
-    setCurrentElement: (el) => {
-      if (el.isSameNode(currentElement)) {
-        console.log("Is the same")
-      }
+    setCurrentElement: (el, type) => {
       setCurrentElement(el)
+      setElementType(type)
       if (!currentElement) {
-        // console.log("Start enter transition")
-        setTransitionEnter(true)
-        setTimeout(() => {
-          setTransitionEnter(false)
-          // console.log("Stop enter transition")
-        }, speed * 1000)
+        statusSet("entering")
       } else {
-        setTransitionEnter(false)
-        console.log("Moved to another")
-        // setDoneTransitioning(true)
+        statusSet("shifting")
       }
 
     },
     removeCurrentElement: () => {
       // console.log("Start exit transition")
-      setTransitionExit(true)
+      statusSet("exiting")
       setCurrentElement(null)
-      setTimeout(() => {
-        setTransitionExit(false)
-        // console.log("Stop exit transition")
-      }, (speed) * 1000)
+      setElementType(null)
+      // setTimeout(() => {
+      //   setTransitionExit(false)
+      //   // console.log("Stop exit transition")
+      // }, (speed) * 1000)
     },
     setExitOrigin: setExitOrigin,
     currentElement: currentElement,
-    transitionEnter: transitionEnter,
-    transitionExit: transitionExit,
+    status: status,
     speed: speed,
-    exitOrigin: exitOrigin
+    exitOrigin: exitOrigin,
+    elementType
   };
 
   return (
@@ -81,12 +72,10 @@ const Home = ({ data }) => {
       <Main>
         <Context.Provider value={contextValue}>
           <Cursor/>
-        </Context.Provider>
-        <Context.Provider value={contextValue}>
           <Header />
+          <Hero />
         </Context.Provider>
-        <Hero />
-        <Currently />
+        {/* <Currently /> */}
       </Main>
     </div>
   )
