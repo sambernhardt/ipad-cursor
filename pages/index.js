@@ -24,7 +24,7 @@ const Home = ({ data }) => {
   const lastScroll = useRef(0);
   // const lastScrollRef = useRef(lastScroll);
   const [ speed, setSpeed ] = useState(.3);
-  const numImages = [1, 1, 1, 1, 1];
+  const numImages = [];
 
   const handleMouseMove = ({ pageX, pageY }) => {
     setMousePos({x: pageX, y: pageY})

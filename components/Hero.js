@@ -23,8 +23,8 @@ const Header = WithHover(styled.div`
 const Hero = () => {
     return (
         <Container>
-            <Header>I'm Sam,</Header>
-            <Header>a product designer currently working at KickUp.</Header>
+            <Header style={{ fontSize: '64px' }}>Hi,</Header>
+            <Header>I'm Sam, a product designer currently working at KickUp.</Header>
             <Header style={{ fontSize: '14px' }}>And this is some small text.</Header>
             {/* <br />
             <br />

@@ -6,7 +6,7 @@ import { gsap } from 'gsap';
 import CursorContext from './CursorContext';
 import { getRelativePosition } from '../utils';
 
-const debug = true;
+const debug = false;
 
 const Debug = styled.div`
     background: green;

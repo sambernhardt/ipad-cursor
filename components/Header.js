@@ -8,16 +8,21 @@ const Container = styled.div`
   margin-bottom: 24px;
 `;
 
+const Title = styled.h2`
+  font-weight: 600;
+`;
+
 const Links = styled.div`
     display: flex;
+    font-weight: 600;
 `;
 
 const Header = () => {
     return (
         <Container>
-            <div>
+            <Title>
                 Sam Bernhardt
-            </div>
+            </Title>
             <Links>
                 <HoverLink>Work</HoverLink>
                 <HoverLink>About</HoverLink>
