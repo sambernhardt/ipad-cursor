@@ -88,6 +88,7 @@ const CursorContainer = () => {
                 ease: "elastic.out(1, 1)",
                 width: '24px',
                 height: '24px',
+                x: 0,
                 left: pos.x - 12,
                 top: pos.y - 12,
                 borderRadius: '50%',
@@ -103,8 +104,8 @@ const CursorContainer = () => {
                 ease: "elastic.out(1, 1)",
                 height: "30px",
                 width: "3px",
-                // left: pos.x,
-                // top: pos.y - 12,
+                x: 12,
+                top: pos.y - 12,
                 borderRadius: '1px',
                 background: 'yellow',
                 onComplete: () => {
