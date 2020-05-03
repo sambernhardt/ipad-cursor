@@ -4,13 +4,6 @@ import { gsap } from 'gsap';
 import CursorContext from './CursorContext';
 import { getRelativePosition } from '../utils';
 
-
-const Dot = styled.div`
-    position: absolute;
-    pointer-events: none;
-    transform-origin: 50% 50%;
-`;
-
 const Debug = styled.div`
     background: green;
     width: 100vw;
@@ -25,7 +18,7 @@ const Debug = styled.div`
     }
 `;
 
-const Block = styled.div`
+const Cursor = styled.div`
     width: 24px;
     height: 24px;
     position: absolute;
@@ -42,7 +35,7 @@ const Block = styled.div`
     }
 `;
 
-const Cursor = () => {
+const CursorContainer = () => {
     const context = useContext(CursorContext);
     const { pos, currentElement, status, elementType } = context;
     
@@ -50,8 +43,8 @@ const Cursor = () => {
     const [ exited, setExited ] = useState(false);
     const [ tweens, setTweens ] = useState([]);
     const [ shape, setShape ] = useState("");
-    const blockRef = useRef();
-    let blockStyles = {
+    const cursorRef = useRef();
+    let baseStyles = {
         left: pos.x - 12,
         top: pos.y - 12,
         width: '24px',
@@ -60,12 +53,11 @@ const Cursor = () => {
     
     // status
     useEffect(() => {
-
         if (status == "entering" || status == "shifting") {
             if (elementType == "block") {
-                gsap.killTweensOf(blockRef.current);
-                // gsap.set(blockRef.current, {clearProps: 'all'});
-                let snapTo = gsap.to(blockRef.current, {
+                gsap.killTweensOf(cursorRef.current);
+                // gsap.set(cursorRef.current, {clearProps: 'all'});
+                let snapTo = gsap.to(cursorRef.current, {
                     duration: .5,
                     ease: "elastic.out(1, 1)",
                     left: currentElement.offsetLeft,
@@ -80,21 +72,24 @@ const Cursor = () => {
                 });
                 setTweens([snapTo]);
             } else {
-                gsap.to(blockRef.current, {
-                    duration: .5,
+                gsap.to(cursorRef.current, {
+                    duration: .2,
                     ease: "elastic.out(1, 1)",
                     height: "30px",
                     width: "3px",
-                    left: pos.x,
                     borderRadius: '1px',
-                    onComplete: () => setShape("text")
+                    background: 'yellow',
+                    onComplete: () => {
+                        setShape("text")
+                        setHovering(true)
+                    }
                 });
             }
             // setExited(false)
         } else if (status == "exiting") {
             // kill all current animations for the block and clear the props it has added
-            gsap.killTweensOf(blockRef.current);
-            // gsap.set(blockRef.current, {clearProps: 'all'});
+            gsap.killTweensOf(cursorRef.current);
+            // gsap.set(cursorRef.current, {clearProps: 'all'});
             setHovering(false);
             setShape("");
         }
@@ -102,7 +97,7 @@ const Cursor = () => {
 
     useEffect(() => {
         if (status == "exiting" && !exited) {
-            let snapBackToCursor = gsap.to(blockRef.current, {
+            let snapBackToCursor = gsap.to(cursorRef.current, {
                 duration: .5,
                 ease: "elastic.out(1, 1)",
                 width: '24px',
@@ -111,13 +106,9 @@ const Cursor = () => {
                 top: pos.y - 12,
                 borderRadius: '50%',
                 onComplete: () => {
-                    console.log("done")
+                    console.log("Done exiting")
                 },
-
             });
-            
-            // setHovering(false);
-        //     // snapBackToCursor.restart();
         }
     }, [pos]);
 
@@ -130,16 +121,22 @@ const Cursor = () => {
         const yMove = (relativePos.y - yMid) / currentElement.clientHeight * amount;
 
         if (elementType == "block") {
-            blockStyles = {
+            baseStyles = {
                 left: currentElement.offsetLeft + xMove,
                 top: currentElement.offsetTop + yMove,
                 height: currentElement.offsetHeight + "px",
                 width: currentElement.offsetWidth + "px",
             }
+        } else if (elementType == "text") {
+            baseStyles = {
+                height: "30px",
+                width: "3px",
+                background: 'green',
+                left: pos.x - 12,
+                top: pos.y - 12,
+            }
         }
-    } else {
-        
-    }
+    } 
 
     return (
         <div>
@@ -150,13 +147,13 @@ const Cursor = () => {
                <span> {JSON.stringify({elementType})}</span>
                <span> {JSON.stringify({hovering})}</span>
             </Debug>
-            <Block
-                ref={blockRef}
-                style={blockStyles}
+            <Cursor
+                ref={cursorRef}
+                style={baseStyles}
                 className={shape}
             />
         </div>
     )
 }
 
-export default Cursor;
+export default CursorContainer;
