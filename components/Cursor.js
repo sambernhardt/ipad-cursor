@@ -13,6 +13,7 @@ const Debug = styled.div`
     top: 0;
     left: 0;
     display: flex;
+    flex-wrap: wrap;
     justify-content: flex-start;
     padding: 8px 16px;
     > * {
@@ -39,9 +40,11 @@ const Cursor = styled.div`
 
 const CursorContainer = () => {
     const context = useContext(CursorContext);
-    const { pos, currentElement, textSize, status, elementType } = context;
+    const { pos, currentElement, textSize, status, elementType, setStatus } = context;
     
     const [ hovering, setHovering ] = useState(false);
+    const [ duration, setDuration ] = useState(1);
+    const [ exited, setExited ] = useState(false);
     const [ shape, setShape ] = useState("");
     const cursorRef = useRef();
     let baseStyles = {
@@ -55,8 +58,9 @@ const CursorContainer = () => {
     useEffect(() => {
         if (status == "entering" || status == "shifting") {
             if (elementType == "block") {
+                setExited(false);
+                setDuration(1);
                 gsap.killTweensOf(cursorRef.current);
-                // gsap.set(cursorRef.current, {clearProps: 'all'});
                 let snapTo = gsap.to(cursorRef.current, {
                     duration: .5,
                     ease: "elastic.out(1, 1)",
@@ -81,24 +85,31 @@ const CursorContainer = () => {
     }, [currentElement, status]);
 
     useEffect(() => {
-        if (status == "exiting" && !hovering) {
-            let snapBackToCursor = gsap.to(cursorRef.current, {
-                duration: .5,
-                ease: "elastic.out(1, .5)",
-                width: '24px',
-                height: '24px',
-                x: 0,
-                left: pos.x - 12,
-                top: pos.y - 12,
-                borderRadius: '50%',
-                onComplete: () => {
-                    
-                },
-            });
+        if (status == "exiting" && !hovering && !exited) {
+            if (duration !== 0) {
+                let snapBackToCursor = gsap.to(cursorRef.current, {
+                    duration: duration,
+                    ease: "elastic.out(1, .5)",
+                    width: '24px',
+                    height: '24px',
+                    x: 0,
+                    left: pos.x - 12,
+                    top: pos.y - 12,
+                    borderRadius: '50%',
+                    onComplete: () => {
+                        setExited(true)
+                        // setStatus("")
+                    },
+                });
+                setDuration(duration - .01);
+            } else {
+                setExited(true)
+            }
         } else if ((status == "entering" || status == "shifting") && elementType == "text" && !hovering) {
             gsap.killTweensOf(cursorRef.current);
+            setExited(false);
             gsap.to(cursorRef.current, {
-                duration: 1,
+                duration: .5,
                 ease: "elastic.out(1, 1)",
                 height: textSize,
                 width: "3px",
@@ -110,6 +121,8 @@ const CursorContainer = () => {
                     setShape("text")
                 }
             });
+        } else if (exited) {
+            gsap.killTweensOf(cursorRef.current);
         }
     }, [pos]);
 
@@ -137,7 +150,7 @@ const CursorContainer = () => {
                 top: pos.y - 12,
             }
         }
-    } 
+    }
 
     return (
         <div>
@@ -145,6 +158,7 @@ const CursorContainer = () => {
                 <span>{JSON.stringify({pos})}</span>
                 <span>{JSON.stringify({currentElement: currentElement ? true: false})}</span>
                 <span>{JSON.stringify({status})}</span>
+                <span>{JSON.stringify({exited})}</span>
                <span> {JSON.stringify({elementType})}</span>
                <span> {JSON.stringify({hovering})}</span>
             </Debug>

@@ -19,7 +19,7 @@ const Home = ({ data }) => {
   const [ mousePos, setMousePos ] = useState({ x: 0, y: 0 });
   const [ currentElement, setCurrentElement ] = useState();
   const [ textSize, setTextSize ] = useState(12);
-  const [ status, statusSet ] = useState("");
+  const [ status, setStatus ] = useState("");
   const [ elementType, setElementType ] = useState("");
   const [ exitOrigin, setExitOrigin ] = useState("");
   const [ speed, setSpeed ] = useState(.3);
@@ -47,15 +47,15 @@ const Home = ({ data }) => {
         setTextSize(window.getComputedStyle(el).fontSize)
       }
       if (!currentElement) {
-        statusSet("entering")
+        setStatus("entering")
       } else {
-        statusSet("shifting")
+        setStatus("shifting")
       }
 
     },
     removeCurrentElement: () => {
       // console.log("Start exit transition")
-      statusSet("exiting")
+      setStatus("exiting")
       setCurrentElement(null)
       setElementType(null)
       // setTimeout(() => {
@@ -64,6 +64,7 @@ const Home = ({ data }) => {
       // }, (speed) * 1000)
     },
     setExitOrigin: setExitOrigin,
+    setStatus: setStatus,
     currentElement: currentElement,
     status: status,
     speed: speed,

@@ -11,8 +11,18 @@ const Container = styled.div`
   margin-bottom: 24px;
 `;
 
-const Header = WithHover(styled.h2`
+const Header = WithHover(styled.input`
   font-size: 32px;
+  &::selection {
+    border-radius: 2px;
+    background: rgba(255, 200, 40, .25);
+  }
+`, 'text');
+
+const Input = WithHover(styled.input`
+  font-size: 32px;
+  background: ${({theme}) => theme.colors.background};
+
   &::selection {
     border-radius: 2px;
     background: rgba(255, 200, 40, .25);
