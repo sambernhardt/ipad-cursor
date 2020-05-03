@@ -9,12 +9,11 @@ const Container = styled.div`
     margin-bottom: 24px;
     position: relative;
     /* cursor: none; */
-    transition-duration: .2s;
     &:hover {
         transform: scale(1.1);
     }
     &:active {
-        color: red;
+        /* color: red; */
     }
 `;
 

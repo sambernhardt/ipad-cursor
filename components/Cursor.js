@@ -6,6 +6,8 @@ import { gsap } from 'gsap';
 import CursorContext from './CursorContext';
 import { getRelativePosition } from '../utils';
 
+const debug = true;
+
 const Debug = styled.div`
     background: green;
     width: 100vw;
@@ -86,6 +88,7 @@ const CursorContainer = () => {
 
     useEffect(() => {
         if (status == "exiting" && !hovering && !exited) {
+            // console.log("here", duration)
             if (duration !== 0) {
                 let snapBackToCursor = gsap.to(cursorRef.current, {
                     duration: duration,
@@ -118,16 +121,20 @@ const CursorContainer = () => {
                 borderRadius: '1px',
                 onComplete: () => {
                     setHovering(true)
+                    setExited(true)
                     setShape("text")
                 }
             });
+        // } else if 
         } else if (exited) {
             gsap.killTweensOf(cursorRef.current);
+            setExited(true)
+            setDuration(1);
         }
     }, [pos]);
 
     if (hovering && currentElement) {
-        const amount = 10;
+        const amount = 5;
         const relativePos = getRelativePosition(pos, currentElement);
         const xMid = currentElement.clientWidth / 2;
         const yMid = currentElement.clientHeight / 2;
@@ -154,14 +161,14 @@ const CursorContainer = () => {
 
     return (
         <div>
-            <Debug>
+            {debug && <Debug>
                 <span>{JSON.stringify({pos})}</span>
                 <span>{JSON.stringify({currentElement: currentElement ? true: false})}</span>
                 <span>{JSON.stringify({status})}</span>
                 <span>{JSON.stringify({exited})}</span>
                <span> {JSON.stringify({elementType})}</span>
                <span> {JSON.stringify({hovering})}</span>
-            </Debug>
+            </Debug>}
             <Cursor
                 ref={cursorRef}
                 style={baseStyles}
