@@ -13,6 +13,7 @@ const Container = styled.div`
 
 const Header = WithHover(styled.div`
   font-size: 32px;
+  margin-bottom: 24px;
   &::selection {
     border-radius: 2px;
     background: rgba(255, 200, 40, .25);
@@ -23,9 +24,7 @@ const Hero = () => {
     return (
         <Container>
             <Header style={{ fontSize: '64px' }}>Hey, I'm Sam.</Header>
-            <br />
             <Header>I'm a product designer currently working at KickUp.</Header>
-            <br />
             <Header style={{ fontSize: '14px' }}>And this is some small text.</Header>
         </Container>
     )
