@@ -89,14 +89,10 @@ const Cursor = () => {
             // }
             // setExited(false)
         } else if (status == "exiting") {
-            console.log(tweens)
-            // tweens[tweens.length - 1].kill();
-            // gsap.killTweensOf(blockRef.current);
-
             gsap.killTweensOf(blockRef.current);
             gsap.set(blockRef.current, {clearProps: 'all'});
-
             setHovering(false);
+            setShape("");
         }
     }, [currentElement, status]);
 
