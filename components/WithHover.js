@@ -25,8 +25,8 @@ export default (Component, type) => ({passThroughRef, ...props}) => {
         const yMid = currentElement.clientHeight / 2;
         const xMove = (relativePos.x - xMid) / currentElement.clientWidth * amount;
         const yMove = (relativePos.y - yMid) / currentElement.clientHeight * amount;
-    
-        if (elementType == "block") {
+
+        if (elementType == "block" && xMove < 200 && yMove < 200) {
             baseStyles = {
                 transform: `translate(${xMove}px, ${yMove}px)`,
             }

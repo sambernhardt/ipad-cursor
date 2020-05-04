@@ -6,14 +6,9 @@ import CursorContext from './CursorContext';
 
 const Container = styled.div`
     padding: 8px 16px;
-    /* margin-bottom: 24px; */
     position: relative;
-    /* cursor: none; */
     &:hover {
         transform: scale(1.1);
-    }
-    &:active {
-        /* color: red; */
     }
 `;
 
