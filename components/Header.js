@@ -5,7 +5,8 @@ import HoverLink from './HoverLink';
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 24px;
+  align-items: center;
+  /* margin-bottom: 24px; */
 `;
 
 const Title = styled.h2`
@@ -20,13 +21,11 @@ const Links = styled.div`
 const Header = () => {
     return (
         <Container>
-            <Title>
-                Sam Bernhardt
-            </Title>
+            <Title>iPad Cursor</Title>
             <Links>
-                <HoverLink>Work</HoverLink>
-                <HoverLink>About</HoverLink>
-                <HoverLink>Contact Me</HoverLink>
+                <HoverLink>Button 1</HoverLink>
+                <HoverLink>Button 2</HoverLink>
+                <HoverLink>Button 3</HoverLink>
             </Links>
         </Container>
     )

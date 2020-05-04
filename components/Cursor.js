@@ -27,10 +27,11 @@ const Cursor = styled.div`
     width: 24px;
     height: 24px;
     position: absolute;
-    background: ${({theme}) => transparentize(.5, theme.colors.body)};
+    background: ${({theme}) => transparentize(.5, theme.colors.cursor)};
     border-radius: 50%;
-    pointer-events: none;
     z-index: -1;
+
+    transition: opacity .3s;
     &.block {
         border-radius: 4px;
     }
@@ -39,11 +40,15 @@ const Cursor = styled.div`
         width: 3px;
         border-radius: 1px;
     }
+    &.pressing {
+        opacity: .5;
+        transition: opacity 0s;
+    }
 `;
 
 const CursorContainer = () => {
     const context = useContext(CursorContext);
-    const { pos, currentElement, textSize, status, elementType, setStatus } = context;
+    const { pos, currentElement, textSize, status, elementType, pressing } = context;
     
     const [ hovering, setHovering ] = useState(false);
     const [ duration, setDuration ] = useState(.5);
@@ -177,7 +182,7 @@ const CursorContainer = () => {
             <Cursor
                 ref={cursorRef}
                 style={baseStyles}
-                className={shape}
+                className={[shape, pressing && "pressing"]}
             />
         </div>
     )

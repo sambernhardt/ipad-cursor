@@ -2,12 +2,15 @@ const light = {
   colors: {
     background: '#fff',
     foreground: '#eee',
+    cursor: '#888',
     body: '#222',
     black: '#222',
     purple: '#11144C',
     red: '#E16262',
     green: '#3A9679',
-    yellow: '#FABC60'
+    yellow: '#FABC60',
+    blue: 'rgb(0,122,255)',
+    highlight: '#FABC60',
   }
 }
 
@@ -15,11 +18,14 @@ const dark = {
   colors: {
     body: '#fff',
     background: 'black',
+    cursor: '#bbb',
     foreground: '#222',
     purple: '#11144C',
     red: '#E16262',
     green: '#3A9679',
-    yellow: '#FABC60'
+    yellow: '#FABC60',
+    blue: 'rgb(10,132,255)',
+    highlight: 'rgb(10,132,255)',
   }
 }
 

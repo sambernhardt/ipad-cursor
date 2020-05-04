@@ -3,7 +3,7 @@ import CursorContext from './CursorContext';
 
 import { getRelativePosition } from '../utils';
 
-export default (Component, type) => (props) => {
+export default (Component, type) => ({passThroughRef, ...props}) => {
     const context = useContext(CursorContext);
     const { currentElement, pos, elementType } = context;
     const [ hovering, setHovering ] = useState(false);
@@ -33,12 +33,12 @@ export default (Component, type) => (props) => {
         }
     }
 
-
     return <Component
         hoc="yep"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         style={baseStyles}
+        ref={passThroughRef}
         {...props}
     />
 }

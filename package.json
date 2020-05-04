@@ -17,6 +17,7 @@
   "author": "sdbernhardt@gmail.com",
   "license": "ISC",
   "dependencies": {
+    "autosize": "^4.0.2",
     "gsap": "^3.2.6",
     "isomorphic-unfetch": "^3.0.0",
     "mouse-speed": "^2.0.1",

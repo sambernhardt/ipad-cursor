@@ -37,8 +37,9 @@ const GlobalStyle = createGlobalStyle`
     background: ${({theme}) => theme.colors.background};
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    ${({ hideCursor }) => hideCursor && 'cursor: none;'}
-  }
+    cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAZdEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjbQg61aAAAADUlEQVQYV2P4//8/IwAI/QL/+TZZdwAAAABJRU5ErkJggg=='),
+    url(images/blank.cur),
+    none;
   h1 {
     font-size: ${({theme}) => theme.fontSizes[3]}px;
     margin-bottom: ${({theme}) => theme.space[3]}px;

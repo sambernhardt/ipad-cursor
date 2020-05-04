@@ -6,7 +6,7 @@ import CursorContext from './CursorContext';
 
 const Container = styled.div`
     padding: 8px 16px;
-    margin-bottom: 24px;
+    /* margin-bottom: 24px; */
     position: relative;
     /* cursor: none; */
     &:hover {

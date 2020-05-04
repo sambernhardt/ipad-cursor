@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import Header from '../components/Header';
 import Hero from '../components/Hero';
-import ImageBlock from '../components/ImageBlock';
+import Footer from '../components/Footer';
 import Cursor from '../components/Cursor';
 import Context from '../components/CursorContext';
 import { debounce } from '../utils';
@@ -21,6 +21,7 @@ const Home = ({ data }) => {
   const [ status, setStatus ] = useState("");
   const [ elementType, setElementType ] = useState("");
   const [ exitOrigin, setExitOrigin ] = useState("");
+  const [ pressing, setPressing ] = useState(false);
   const lastScroll = useRef(0);
   // const lastScrollRef = useRef(lastScroll);
   const [ speed, setSpeed ] = useState(.3);
@@ -41,14 +42,14 @@ const Home = ({ data }) => {
     // var offset = window.scrollY - lastScroll;
     // console.log("Save it: ")
     // console.log(window.scrollY)
-    console.log("Setting: " + window.scrollY)
+    // console.log("Setting: " + window.scrollY)
     lastScroll.current = window.scrollY;
   }
 
   useEffect(() => {
     // console.log(lastScroll)
-    window.addEventListener('scroll', handleScroll)
-    window.addEventListener('scroll', debounce(setScrollOffset, 1000))
+    // window.addEventListener('scroll', handleScroll)
+    // window.addEventListener('scroll', debounce(setScrollOffset, 1000))
   }, [])
 
   const contextValue = {
@@ -84,17 +85,23 @@ const Home = ({ data }) => {
     speed: speed,
     exitOrigin: exitOrigin,
     elementType,
-    textSize
+    textSize,
+    pressing
   };
 
   return (
-    <div onMouseMove={handleMouseMove}>
+    <div
+      onMouseMove={handleMouseMove}
+      onMouseDown={() => setPressing(true)}
+      onMouseUp={() => setPressing(false)}
+    >
       <Main>
         <Context.Provider value={contextValue}>
           <Cursor/>
           <Header />
           <Hero />
-          {numImages.map((j, i) => <ImageBlock index={i} />)}
+          <Footer />
+          {/* {numImages.map((j, i) => <ImageBlock index={i} />)} */}
         </Context.Provider>
         {/* <Currently /> */}
       </Main>
@@ -106,7 +113,7 @@ const Main = styled.div`
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
-  padding: 48px 16px;
+  padding: 48px 24px;
   box-sizing: border-box;
   font-family: ${({theme}) => theme.fonts.default};
   /* cursor: url('/cursor.svg'), auto; */
