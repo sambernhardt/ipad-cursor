@@ -100,7 +100,7 @@ const Home = () => {
           <Cursor/>
           <Header />
           <Hero />
-          <Footer />
+          <Footer/>
           {/* {numImages.map((j, i) => <ImageBlock index={i} />)} */}
         </Context.Provider>
         {/* <Currently /> */}

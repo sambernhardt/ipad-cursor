@@ -1,34 +1,44 @@
-import { Fragment, useState, useEffect } from 'react';
+import { Fragment, useState, useEffect, createContext } from 'react';
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import { Reset } from 'styled-reset';
 import useDarkMode from 'use-dark-mode';
 import {light, dark} from '../theme';
+import ActiveCursor from './ActiveCursor';
 
 export default ({children}) => {
-  const [mounted, setMounted] = useState(false);
-  const [ hideCursor, setHideCursor ] = useState(true);
+    const [mounted, setMounted] = useState(false);
+    const [showingCursor, setShowingCursor] = useState(false);
+    const {value} = useDarkMode(false, { storageKey: null });
 
-  useEffect(() => {
-    setMounted(true)
-  }, []);
+    const context = {
+      toggleCursor: () => {
+        setShowingCursor(!showingCursor)
+      },
+      showingCursor: showingCursor
+    }
 
-  const {value} = useDarkMode(false, { storageKey: null });
-  
-  const body = 
-    <Fragment>
-        <Reset/>
-        <ThemeProvider theme={value ? dark : light}>
-          <Fragment>
-            {children}
-            <GlobalStyle hideCursor={hideCursor} />
-          </Fragment>
-        </ThemeProvider>
-    </Fragment>;
+    useEffect(() => {
+      setMounted(true)
+    }, []);
 
-  if (!mounted) {
-      return <div style={{ visibility: 'hidden' }}>{body}</div>
-  }
-  return body;
+
+    const body = 
+      <Fragment>
+          <Reset/>
+          <ThemeProvider theme={value ? dark : light}>
+            <ActiveCursor.Provider value={context}>
+              <Fragment>
+                {children}
+                <GlobalStyle showingCursor={showingCursor} />
+              </Fragment>
+            </ActiveCursor.Provider>
+          </ThemeProvider>
+      </Fragment>;
+
+    if (!mounted) {
+        return <div style={{ visibility: 'hidden' }}>{body}</div>
+    }
+    return body;
 }
 
 const GlobalStyle = createGlobalStyle`
@@ -37,9 +47,11 @@ const GlobalStyle = createGlobalStyle`
     background: ${({theme}) => theme.colors.background};
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAZdEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjbQg61aAAAADUlEQVQYV2P4//8/IwAI/QL/+TZZdwAAAABJRU5ErkJggg=='),
-    url(images/blank.cur),
-    none;
+    ${({ showingCursor }) => !showingCursor && `
+      cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAZdEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjbQg61aAAAADUlEQVQYV2P4//8/IwAI/QL/+TZZdwAAAABJRU5ErkJggg=='),
+      url(images/blank.cur),
+      none;
+    `}
   h1 {
     font-size: ${({theme}) => theme.fontSizes[3]}px;
     margin-bottom: ${({theme}) => theme.space[3]}px;

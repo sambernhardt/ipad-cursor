@@ -7,12 +7,15 @@ const light = {
     black: '#222',
     purple: '#11144C',
     red: '#E16262',
-    green: '#3A9679',
+    green: 'rgb(52,199,89)',
     yellow: '#FABC60',
     blue: 'rgb(0,122,255)',
     highlight: '#FABC60',
   }
 }
+
+
+
 
 const dark = {
   colors: {
@@ -22,7 +25,7 @@ const dark = {
     foreground: '#222',
     purple: '#11144C',
     red: '#E16262',
-    green: '#3A9679',
+    green: 'rgb(48,209,88)',
     yellow: '#FABC60',
     blue: 'rgb(10,132,255)',
     highlight: 'rgb(10,132,255)',
