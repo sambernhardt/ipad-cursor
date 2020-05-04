@@ -21,6 +21,6 @@ const Heading = styled.div`
 
 export default () => (
     <div>
-        <Heading style={{ fontSize: '14px' }}>Find me on <Link href="https://twitter.com/sambernhardt">the tweets.</Link></Heading>
+        <Heading style={{ fontSize: '14px' }}>Find me on <Link href="https://twitter.com/samuelbernhardt">the tweets.</Link></Heading>
     </div>
 )
