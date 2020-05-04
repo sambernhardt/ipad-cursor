@@ -13,7 +13,7 @@ function clamp(num, min, max) {
   return num <= min ? min : num >= max ? max : num;
 }
 
-const Home = ({ data }) => {
+const Home = () => {
   const [state, setState] = useState({});
   const [ mousePos, setMousePos ] = useState({ x: 0, y: 0 });
   const [ currentElement, setCurrentElement ] = useState();
@@ -118,11 +118,5 @@ const Main = styled.div`
   font-family: ${({theme}) => theme.fonts.default};
   /* cursor: url('/cursor.svg'), auto; */
 `;
-
-Home.getInitialProps = async () => {
-  const res = await fetch('https://jsonplaceholder.typicode.com/todos/1')
-  const json = await res.json();
-  return { data: json }
-}
 
 export default Home;
