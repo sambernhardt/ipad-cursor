@@ -1,8 +1,9 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useContext } from 'react';
 import { transparentize } from 'polished';
 import styled from 'styled-components';
 import autosize from 'autosize';
 
+import ActiveCursor from './ActiveCursor';
 import WithHover from './WithHover';
 
 const Container = WithHover(styled.textarea`
@@ -12,9 +13,11 @@ const Container = WithHover(styled.textarea`
   color: ${({ theme }) => theme.colors.body};
   border: none;
   margin-bottom: 24px;
-  cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAZdEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjbQg61aAAAADUlEQVQYV2P4//8/IwAI/QL/+TZZdwAAAABJRU5ErkJggg=='),
-    url(images/blank.cur),
-    none;
+  ${({ showingCursor }) => !showingCursor && `
+    cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAZdEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjbQg61aAAAADUlEQVQYV2P4//8/IwAI/QL/+TZZdwAAAABJRU5ErkJggg=='),
+      url(images/blank.cur),
+      none;
+  `}
   resize: none; 
   &:focus {
       outline: none;
@@ -26,6 +29,7 @@ const Container = WithHover(styled.textarea`
 
 const TextArea = (props) => {
     const [ myRef, setRef ] = useState();
+    const context = useContext(ActiveCursor);
     const ref = useCallback(node => {
         autosize(node)
         setRef(node)
@@ -38,7 +42,7 @@ const TextArea = (props) => {
     },[myRef])
 
     return (
-        <Container passThroughRef={ref} rows="1" {...props}/>
+        <Container passThroughRef={ref} rows="1" showingCursor={context.showingCursor} {...props}/>
     )
 }
 

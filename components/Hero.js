@@ -13,14 +13,13 @@ const Container = styled.div`
 
 
 
+
 const Hero = () => {
     return (
         <Container>
-            <TextArea style={{ fontSize: '64px' }} defaultValue="Hello" focus/>
-            <TextArea defaultValue="Try out hovering over this text and editing it."/>
-            <TextArea style={{ fontSize: '14px' }} defaultValue="Event small text works."/>
-            {/* <Header style={{ fontSize: '64px' }}>Hi,</Header>
-            <Header>I'm Sam, a product designer currently working at KickUp.</Header> */}
+            <TextArea style={{ fontSize: '64px' }} defaultValue="Hover over this text to see the cursor change size." focus/>
+            <TextArea defaultValue="Different sized text, will change the cursor size appropriately."/>
+            <TextArea style={{ fontSize: '14px' }} defaultValue="Even teeny tiny text works."/>
         </Container>
     )
 }
