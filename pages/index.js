@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import fetch from 'isomorphic-unfetch';
+import Head from 'next/head'
 import styled from 'styled-components';
 
 import Header from '../components/Header';
@@ -7,6 +8,7 @@ import Hero from '../components/Hero';
 import Footer from '../components/Footer';
 import Cursor from '../components/Cursor';
 import Context from '../components/CursorContext';
+import Layout from "../components/layout.js"
 import { debounce } from '../utils';
 
 function clamp(num, min, max) {
@@ -90,22 +92,24 @@ const Home = () => {
   };
 
   return (
-    <div
-      onMouseMove={handleMouseMove}
-      onMouseDown={() => setPressing(true)}
-      onMouseUp={() => setPressing(false)}
-    >
-      <Main>
-        <Context.Provider value={contextValue}>
-          <Cursor/>
-          <Header />
-          <Hero />
-          <Footer/>
-          {/* {numImages.map((j, i) => <ImageBlock index={i} />)} */}
-        </Context.Provider>
-        {/* <Currently /> */}
-      </Main>
-    </div>
+    <Layout>
+      <div
+        onMouseMove={handleMouseMove}
+        onMouseDown={() => setPressing(true)}
+        onMouseUp={() => setPressing(false)}
+      >
+        <Main>
+          <Context.Provider value={contextValue}>
+            <Cursor/>
+            <Header />
+            <Hero />
+            <Footer/>
+            {/* {numImages.map((j, i) => <ImageBlock index={i} />)} */}
+          </Context.Provider>
+          {/* <Currently /> */}
+        </Main>
+      </div>
+    </Layout>
   )
 };
 
