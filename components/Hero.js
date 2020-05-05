@@ -18,7 +18,7 @@ const Hero = () => {
     return (
         <Container>
             <TextArea style={{ fontSize: '64px' }} defaultValue="Hover over this text to see the cursor change size." focus/>
-            <TextArea defaultValue="Different sized text, will change the cursor size appropriately."/>
+            <TextArea defaultValue="Different sized text will change the cursor size appropriately."/>
             <TextArea style={{ fontSize: '14px' }} defaultValue="Even teeny tiny text works."/>
         </Container>
     )
