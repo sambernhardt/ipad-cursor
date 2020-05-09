@@ -1,6 +1,17 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
+import { createGlobalStyle } from 'styled-components'
 import Cursor from './Cursor';
 import Context from './CursorContext';
+
+const GlobalStyle = createGlobalStyle`
+  body, input, textarea, a {
+    ${({ showingCursor }) => !showingCursor && `
+      cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAZdEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjbQg61aAAAADUlEQVQYV2P4//8/IwAI/QL/+TZZdwAAAABJRU5ErkJggg=='),
+      url(cursor.png),
+      none;
+    `}
+  }
+`;
 
 const Wrapper = ({children}) => {
   const [ mousePos, setMousePos ] = useState({ x: 0, y: 0 });
@@ -10,6 +21,7 @@ const Wrapper = ({children}) => {
   const [ elementType, setElementType ] = useState("");
   const [ exitOrigin, setExitOrigin ] = useState("");
   const [ pressing, setPressing ] = useState(false);
+  const [ showingCursor, showingCursorSet ] = useState(false);
 
   const handleMouseMove = ({ pageX, pageY }) => {
     setMousePos({x: pageX, y: pageY})
@@ -43,7 +55,12 @@ const Wrapper = ({children}) => {
     exitOrigin: exitOrigin,
     elementType,
     textSize,
-    pressing
+    pressing,
+
+    toggleCursor: () => {
+      showingCursorSet(!showingCursor)
+    },
+    showingCursor: showingCursor
   };
 
   return (
@@ -53,6 +70,7 @@ const Wrapper = ({children}) => {
         onMouseUp={() => setPressing(false)}
     >
         <Context.Provider value={contextValue}>
+            <GlobalStyle showingCursor={showingCursor} />
             <Cursor/>
             {children}
         </Context.Provider>

@@ -8,15 +8,15 @@ import GoogleAnalytics from "../components/GoogleAnalytics/Layout.js"
 
 const Home = () => {
 
+  // {/* <CursorWrapper> */}
   let body = (
-      <CursorWrapper>
         <Main>
             <Header />
             <Hero />
             <Footer/>
         </Main>
-      </CursorWrapper>
   );
+  // {/* </CursorWrapper> */}
 
   if (process.env.google_analytics) {
     return <GoogleAnalytics>{body}</GoogleAnalytics>

@@ -9,10 +9,12 @@ export default (Component, type) => ({passThroughRef, ...props}) => {
     const [ hovering, setHovering ] = useState(false);
 
     const handleMouseEnter = e => {
+        if (!context.setCurrentElement) return;
         context.setCurrentElement(e.target, type);
         setHovering(true);
     }
     const handleMouseLeave = ({pageX, pageY, ...e}) => {
+        if (!context.removeCurrentElement) return;
         context.removeCurrentElement()
         setHovering(false);
     }

@@ -2,8 +2,7 @@ import { useContext } from 'react';
 import styled from 'styled-components';
 import { transparentize } from 'polished';
 import WithHover from '../../cursor/WithHover';
-
-import ActiveCursor from '../ActiveCursor';
+import CursorContext from '../../cursor/CursorContext';
 
 const height = 20;
 
@@ -47,8 +46,8 @@ const ToggleContainer = styled.div`
   `}
 `;
 
-export default () => {
-  const context = useContext(ActiveCursor);
+export default ({}) => {
+  const context = useContext(CursorContext);
 
   const handleClick = () => {
     context.toggleCursor();

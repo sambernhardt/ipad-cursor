@@ -4,6 +4,7 @@ import { Reset } from 'styled-reset';
 import useDarkMode from 'use-dark-mode';
 import {light, dark} from '../theme';
 import ActiveCursor from './ActiveCursor';
+import CursorWrapper from '../cursor/CursorWrapper';
 
 export default ({children}) => {
     const [mounted, setMounted] = useState(false);
@@ -25,12 +26,12 @@ export default ({children}) => {
       <Fragment>
           <Reset/>
           <ThemeProvider theme={value ? dark : light}>
-            <ActiveCursor.Provider value={context}>
-              <Fragment>
+            {/* <ActiveCursor.Provider value={context}> */}
+              <CursorWrapper>
                 {children}
                 <GlobalStyle showingCursor={showingCursor} />
-              </Fragment>
-            </ActiveCursor.Provider>
+              </CursorWrapper>
+            {/* </ActiveCursor.Provider> */}
           </ThemeProvider>
       </Fragment>;
 
@@ -47,13 +48,9 @@ const GlobalStyle = createGlobalStyle`
     font-family: ${({theme}) => theme.fonts.default};
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    ${({ showingCursor }) => !showingCursor && `
-      cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAZdEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjbQg61aAAAADUlEQVQYV2P4//8/IwAI/QL/+TZZdwAAAABJRU5ErkJggg=='),
-      url(cursor.png),
-      none;
-    `}
+  }
   h1 {
     font-size: ${({theme}) => theme.fontSizes[3]}px;
     margin-bottom: ${({theme}) => theme.space[3]}px;
   }
-`
+`;
