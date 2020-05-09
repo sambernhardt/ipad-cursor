@@ -47,15 +47,12 @@ const Cursor = styled.div`
 const CursorContainer = ({ debug }) => {
     const {
         pos,
-        currentElement,
-        textSize,
+        selectedElement,
         status,
-        elementType,
         pressing,
         setStatus
     } = useContext(CursorContext);
     
-    const [ shape, setShape ] = useState("");
     const cursorRef = useRef();
     let baseStyles = {
         left: pos.x - 12,
@@ -64,33 +61,35 @@ const CursorContainer = ({ debug }) => {
         height: '24px',
     };
 
-    // when the currentElement or status changes
+    // when the selectedElement or status changes
     useEffect(() => {
+        if (!selectedElement.el) return;
         if (status == "entering" || status == "shifting") {
-            if (elementType == "block") {
+            // console.log(selectedElement)
+            if (selectedElement.type == "block") {
                 gsap.to(cursorRef.current, {
                     duration: .5,
                     ease: "elastic.out(1, 1)",
-                    left: currentElement.offsetLeft,
-                    top: currentElement.offsetTop,
-                    height: currentElement.offsetHeight + "px",
-                    width: currentElement.offsetWidth + "px",
+                    left: selectedElement.el.offsetLeft,
+                    top: selectedElement.el.offsetTop,
+                    height: selectedElement.el.offsetHeight + "px",
+                    width: selectedElement.el.offsetWidth + "px",
                     borderRadius: '4px',
                     onComplete: () => {
                         setStatus("entered");
-                        setShape("block")
                     }
                 });
             }
         } else if (status == "exiting") {
             // kill all current animations for the block and clear the props it has added
-            setShape("");
+            gsap.killTweensOf(cursorRef.current);
         }
-    }, [currentElement, status]);
+    }, [selectedElement, status]);
+
 
     useEffect(() => {
         // general exit handling
-        if (status == "exiting" && !currentElement) {
+        if (status == "exiting" && !selectedElement.el) {
             gsap.killTweensOf(cursorRef.current);
             gsap.to(cursorRef.current, {
                 duration: .5,
@@ -106,8 +105,9 @@ const CursorContainer = ({ debug }) => {
                     setStatus("");
                 },
             });
-        } else if ((status == "entering" || status == "shifting") && elementType == "text") {
+        } else if ((status == "entering" || status == "shifting") && selectedElement.type == "text") {
             // text cursor handling
+            const { textSize } = selectedElement.config;
             gsap.killTweensOf(cursorRef.current);
             gsap.to(cursorRef.current, {
                 duration: .5,
@@ -119,43 +119,43 @@ const CursorContainer = ({ debug }) => {
                 borderRadius: '1px',
                 onComplete: () => {
                     setStatus("entered");
-                    setShape("text")
                 }
             });
         }
     }, [pos]);
 
-    if (currentElement) {
+    if (selectedElement.el) {
         const amount = 5;
-        const relativePos = getRelativePosition(pos, currentElement);
-        const xMid = currentElement.clientWidth / 2;
-        const yMid = currentElement.clientHeight / 2;
-        const xMove = (relativePos.x - xMid) / currentElement.clientWidth * amount;
-        const yMove = (relativePos.y - yMid) / currentElement.clientHeight * amount;
+        const relativePos = getRelativePosition(pos, selectedElement.el);
+        const xMid = selectedElement.el.clientWidth / 2;
+        const yMid = selectedElement.el.clientHeight / 2;
+        const xMove = (relativePos.x - xMid) / selectedElement.el.clientWidth * amount;
+        const yMove = (relativePos.y - yMid) / selectedElement.el.clientHeight * amount;
 
-        if (elementType == "block") {
+        if (selectedElement.type == "block") {
             baseStyles = {
-                left: currentElement.offsetLeft + xMove,
-                top: currentElement.offsetTop + yMove,
-                height: currentElement.offsetHeight + "px",
-                width: currentElement.offsetWidth + "px",
+                left: selectedElement.el.offsetLeft + xMove,
+                top: selectedElement.el.offsetTop + yMove,
+                height: selectedElement.el.offsetHeight + "px",
+                width: selectedElement.el.offsetWidth + "px",
             }
         }
     }
 
+    let shapeClass = selectedElement.el && !(status == "entering" || status == "shifting") && selectedElement.type;
     return (
         <div>
             {debug && <Debug>
                 <span>{JSON.stringify({pos})}</span>
-                <span>{JSON.stringify({currentElement: currentElement ? true: false})}</span>
+                <span>{JSON.stringify(selectedElement.type)}</span>
                 <span>{JSON.stringify({status})}</span>
-                <span> {JSON.stringify({elementType})}</span>
-                <span> {JSON.stringify({textSize})}</span>
+                {/* <span> {JSON.stringify({type: selectedElement.type && selectedElement.type})}</span> */}
+                {/* <span> {JSON.stringify({textSize: selectedElement.textSize && selectedElement.textSize})}</span> */}
             </Debug>}
             <Cursor
                 ref={cursorRef}
                 style={baseStyles}
-                className={[elementType, pressing && "pressing"]}
+                className={[shapeClass, pressing && "pressing"]}
             />
         </div>
     )

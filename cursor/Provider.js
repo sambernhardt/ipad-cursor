@@ -16,10 +16,8 @@ const GlobalStyle = createGlobalStyle`
 const Provider = ({debug, children}) => {
   const [ mousePos, setMousePos ] = useState({ x: 0, y: 0 });
 
-  const [ currentElement, setCurrentElement ] = useState();
-  const [ textSize, setTextSize ] = useState(12);
+  const [ selectedElement, selectedElementSet ] = useState({ el: null });
   const [ status, setStatus ] = useState("");
-  const [ elementType, setElementType ] = useState("");
   const [ pressing, setPressing ] = useState(false);
   const [ showingCursor, showingCursorSet ] = useState(false);
 
@@ -29,32 +27,22 @@ const Provider = ({debug, children}) => {
 
   const context = {
     pos: mousePos,
-    setCurrentElement: (el, type) => {
-      setCurrentElement(el)
-      setElementType(type)
-      if (type == "text") {
-        let computed = window.getComputedStyle(el).fontSize;
-        setTextSize(parseFloat(computed.replace("px")))
-      }
-      if (!currentElement) {
+    selectedElementSet: (element) => {
+      selectedElementSet(element)
+      if (!selectedElement.el) {
         setStatus("entering")
       } else {
         setStatus("shifting")
       }
 
     },
-    removeCurrentElement: () => {
+    removeSelectedElement: () => {
       setStatus("exiting")
-      setCurrentElement(null)
-      setElementType(null)
+      selectedElementSet({ el: null })
     },
     setStatus: setStatus,
     status: status,
-
-    currentElement: currentElement,
-    elementType,
-
-    textSize,
+    selectedElement,
     pressing,
 
     toggleCursor: () => showingCursorSet(!showingCursor),

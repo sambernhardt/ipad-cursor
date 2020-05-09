@@ -3,35 +3,42 @@ import CursorContext from './Context';
 
 import { getRelativePosition } from './utils';
 
-export default (Component, type) => ({passThroughRef, ...props}) => {
+export default (Component, type, config) => ({passThroughRef, ...props}) => {
     const context = useContext(CursorContext);
-    const { currentElement, pos, elementType } = context;
+    const { selectedElement, pos } = context;
     const [ hovering, setHovering ] = useState(false);
 
     const handleMouseEnter = e => {
-        if (!context.setCurrentElement) return;
-        context.setCurrentElement(e.currentTarget, type);
+        if (!context.selectedElementSet) return;
+        let result = {
+            el: e.currentTarget,
+            type,
+            config: {...config}
+        }
+        if (type == "text") {
+            let computed = window.getComputedStyle(e.currentTarget).fontSize;
+            result.config.textSize = parseFloat(computed.replace("px"));
+        }
+        context.selectedElementSet(result);
         setHovering(true);
     }
     const handleMouseLeave = ({pageX, pageY, ...e}) => {
-        if (!context.removeCurrentElement) return;
-        context.removeCurrentElement()
+        if (!context.removeSelectedElement) return;
+        context.removeSelectedElement()
         setHovering(false);
     }
 
     let styles;
-    if (hovering && currentElement) {
-        const amount = 2;
-        const relativePos = getRelativePosition(pos, currentElement);
-        const xMid = currentElement.offsetWidth / 2;
-        const yMid = currentElement.offsetHeight / 2;
-        const xMove = (relativePos.x - xMid) / currentElement.offsetWidth * amount;
-        const yMove = (relativePos.y - yMid) / currentElement.offsetHeight * amount;
-
-        if (elementType == "block") {
-            styles = {
-                transform: `translate(${xMove}px, ${yMove}px)`,
-            }
+    if (hovering && selectedElement.el && selectedElement.type == "block") {
+        const amount = selectedElement.config.hoverOffset ? selectedElement.config.hoverOffset : 2;
+        const relativePos = getRelativePosition(pos, selectedElement.el);
+        const xMid = selectedElement.el.offsetWidth / 2;
+        const yMid = selectedElement.el.offsetHeight / 2;
+        const xMove = (relativePos.x - xMid) / selectedElement.el.offsetWidth * amount;
+        const yMove = (relativePos.y - yMid) / selectedElement.el.offsetHeight * amount;
+        
+        styles = {
+            transform: `translate(${xMove}px, ${yMove}px)`,
         }
     }
 
