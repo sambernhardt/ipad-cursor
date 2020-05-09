@@ -19,7 +19,7 @@ const Home = () => {
       </CursorWrapper>
   );
 
-  if (false) {
+  if (process.env.google_analytics) {
     return <GoogleAnalytics>{body}</GoogleAnalytics>
   }
 
