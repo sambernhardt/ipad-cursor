@@ -68,12 +68,6 @@ const CursorContainer = ({ debug }) => {
     useEffect(() => {
         if (status == "entering" || status == "shifting") {
             if (elementType == "block") {
-                // gsap.killTweensOf(cursorRef.current);
-
-                if (currentElement.offsetLeft < 200) {
-                    console.log(currentElement.offsetLeft)
-                }
-
                 gsap.to(cursorRef.current, {
                     duration: .5,
                     ease: "elastic.out(1, 1)",
