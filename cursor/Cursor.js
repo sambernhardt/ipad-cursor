@@ -55,9 +55,6 @@ const CursorContainer = ({ debug }) => {
         setStatus
     } = useContext(CursorContext);
     
-    const [ hovering, setHovering ] = useState(false);
-    const [ duration, setDuration ] = useState(.5);
-    const [ exited, setExited ] = useState(false);
     const [ shape, setShape ] = useState("");
     const cursorRef = useRef();
     let baseStyles = {
@@ -72,6 +69,11 @@ const CursorContainer = ({ debug }) => {
         if (status == "entering" || status == "shifting") {
             if (elementType == "block") {
                 // gsap.killTweensOf(cursorRef.current);
+
+                if (currentElement.offsetLeft < 200) {
+                    console.log(currentElement.offsetLeft)
+                }
+
                 gsap.to(cursorRef.current, {
                     duration: .5,
                     ease: "elastic.out(1, 1)",
@@ -88,7 +90,6 @@ const CursorContainer = ({ debug }) => {
             }
         } else if (status == "exiting") {
             // kill all current animations for the block and clear the props it has added
-            // gsap.killTweensOf(cursorRef.current);
             setShape("");
         }
     }, [currentElement, status]);
@@ -127,34 +128,35 @@ const CursorContainer = ({ debug }) => {
                     setShape("text")
                 }
             });
-        } else if (currentElement) {
-            const amount = 5;
-            const relativePos = getRelativePosition(pos, currentElement);
-            const xMid = currentElement.clientWidth / 2;
-            const yMid = currentElement.clientHeight / 2;
-            const xMove = (relativePos.x - xMid) / currentElement.clientWidth * amount;
-            const yMove = (relativePos.y - yMid) / currentElement.clientHeight * amount;
-    
-            if (elementType == "block") {
-                baseStyles = {
-                    left: currentElement.offsetLeft + xMove,
-                    top: currentElement.offsetTop + yMove,
-                    height: currentElement.offsetHeight + "px",
-                    width: currentElement.offsetWidth + "px",
-                }
-            }
         }
     }, [pos]);
+
+    if (currentElement) {
+        const amount = 5;
+        const relativePos = getRelativePosition(pos, currentElement);
+        const xMid = currentElement.clientWidth / 2;
+        const yMid = currentElement.clientHeight / 2;
+        const xMove = (relativePos.x - xMid) / currentElement.clientWidth * amount;
+        const yMove = (relativePos.y - yMid) / currentElement.clientHeight * amount;
+
+        if (elementType == "block") {
+            baseStyles = {
+                left: currentElement.offsetLeft + xMove,
+                top: currentElement.offsetTop + yMove,
+                height: currentElement.offsetHeight + "px",
+                width: currentElement.offsetWidth + "px",
+            }
+        }
+    }
 
     return (
         <div>
             {debug && <Debug>
-                {/* <span>{JSON.stringify({pos})}</span> */}
+                <span>{JSON.stringify({pos})}</span>
                 <span>{JSON.stringify({currentElement: currentElement ? true: false})}</span>
                 <span>{JSON.stringify({status})}</span>
                 <span> {JSON.stringify({elementType})}</span>
                 <span> {JSON.stringify({textSize})}</span>
-                <span> {JSON.stringify({duration})}</span>
             </Debug>}
             <Cursor
                 ref={cursorRef}

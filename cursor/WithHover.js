@@ -10,7 +10,7 @@ export default (Component, type) => ({passThroughRef, ...props}) => {
 
     const handleMouseEnter = e => {
         if (!context.setCurrentElement) return;
-        context.setCurrentElement(e.target, type);
+        context.setCurrentElement(e.currentTarget, type);
         setHovering(true);
     }
     const handleMouseLeave = ({pageX, pageY, ...e}) => {

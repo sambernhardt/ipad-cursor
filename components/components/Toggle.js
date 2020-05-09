@@ -7,11 +7,11 @@ import CursorContext from '../../cursor/Context';
 const height = 20;
 
 const Container = WithHover(styled.div`
-  padding: 4px;
-  left: -4px;
-  position: relative;
   display: inline-flex;
+  padding: 4px;
+  position: relative;
   align-items: center;
+  
   span {
     font-size: 13px;
     font-weight: 600;
