@@ -7,9 +7,6 @@ import CursorContext from './CursorContext';
 const Container = styled.div`
     padding: 8px 16px;
     position: relative;
-    &:hover {
-        transform: scale(1.1);
-    }
 `;
 
 const HoverLink = (props) => {    

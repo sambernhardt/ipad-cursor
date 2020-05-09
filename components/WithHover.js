@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import CursorContext from './CursorContext';
 
 import { getRelativePosition } from '../utils';
@@ -28,13 +28,12 @@ export default (Component, type) => ({passThroughRef, ...props}) => {
 
         if (elementType == "block" && xMove < 200 && yMove < 200) {
             baseStyles = {
-                transform: `translate(${xMove}px, ${yMove}px)`,
+                transform: `translate(${xMove}px, ${yMove}px) scale(1.1)`,
             }
         }
     }
 
     return <Component
-        hoc="yep"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         style={baseStyles}
