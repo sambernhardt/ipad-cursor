@@ -46,7 +46,7 @@ const Cursor = styled.div`
     }
 `;
 
-const CursorContainer = () => {
+const CursorContainer = ({ debug }) => {
     const context = useContext(CursorContext);
     const { pos, currentElement, textSize, status, elementType, pressing } = context;
     

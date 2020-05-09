@@ -44,6 +44,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     color: ${({theme}) => theme.colors.body};
     background: ${({theme}) => theme.colors.background};
+    font-family: ${({theme}) => theme.fonts.default};
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     ${({ showingCursor }) => !showingCursor && `

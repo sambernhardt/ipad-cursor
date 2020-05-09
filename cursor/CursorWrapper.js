@@ -10,8 +10,6 @@ const Wrapper = ({children}) => {
   const [ elementType, setElementType ] = useState("");
   const [ exitOrigin, setExitOrigin ] = useState("");
   const [ pressing, setPressing ] = useState(false);
-  const [ speed, setSpeed ] = useState(.3);
-  const numImages = [];
 
   const handleMouseMove = ({ pageX, pageY }) => {
     setMousePos({x: pageX, y: pageY})
@@ -42,7 +40,6 @@ const Wrapper = ({children}) => {
     setStatus: setStatus,
     currentElement: currentElement,
     status: status,
-    speed: speed,
     exitOrigin: exitOrigin,
     elementType,
     textSize,

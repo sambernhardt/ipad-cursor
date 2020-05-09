@@ -31,7 +31,6 @@ const Main = styled.div`
   margin: 0 auto;
   padding: 48px 24px;
   box-sizing: border-box;
-  font-family: ${({theme}) => theme.fonts.default};
 `;
 
 export default Home;
