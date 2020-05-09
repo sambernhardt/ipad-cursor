@@ -1,7 +1,7 @@
 {
   "name": "ipad-cursor",
   "version": "0.0.1",
-  "description": "A web implementation of the new iPadOS cursor",
+  "description": "A web implementation of the new iPadOS cursor in Next.js",
   "main": "index.js",
   "scripts": {
     "dev": "next",
