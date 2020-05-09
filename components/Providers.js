@@ -6,8 +6,6 @@ import useDarkMode from 'use-dark-mode';
 import {light, dark} from '../theme';
 import CursorProvider from '../cursor/Provider';
 
-let a = 3;
-
 export default ({children}) => {
     const [mounted, setMounted] = useState(false);
     const {value} = useDarkMode(false, { storageKey: null });
