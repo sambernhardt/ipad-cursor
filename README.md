@@ -1,5 +1,8 @@
 # Basic usage
 
+1. `git clone https://github.com/sambernhardt/ipad-cursor.git`
+2. `npm i`
+
 ## Add the CursorProvider to a page
 ```javascript
 // app.js
