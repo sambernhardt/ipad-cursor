@@ -1,4 +1,35 @@
+# Basic usage
+
+## Add the Context Wrapper to a page
+```javascript
+// app.js
+
+import App from 'next/app';
+import CursorWrapper from '../cursor/CursorWrapper';
+
+export default class MyApp extends App {
+  render () {
+    const { Component, pageProps } = this.props;
+    
+    return (
+      <CursorWrapper>
+        <Component {...pageProps} />
+      </CursorWrapper>
+    )
+  }
+}
+```
+
+## Then wrap your components with the `WithHover` function
+```javascript
+// Component.js
+import WithHover from '../cursor/WithHover';
+
+const Component = () => <h1>;
+
+export default WithHover(<Component />, 'block');
+```
 
 
-Caveats:
-- Must be inline-block or block. Transforms don't work on inline elements
+### Caveats:
+- To move the contents of the hovered component, the component must have a display type of `inline-block` or `block`. Transforms don't work on inline elements.

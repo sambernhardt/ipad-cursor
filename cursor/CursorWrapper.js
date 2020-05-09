@@ -69,7 +69,7 @@ const Wrapper = ({debug, children}) => {
     >
         <Context.Provider value={contextValue}>
             <GlobalStyle showingCursor={showingCursor} />
-            <Cursor debug/>
+            <Cursor debug={debug} />
             {children}
         </Context.Provider>
     </div>
