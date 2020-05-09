@@ -1,7 +1,7 @@
 import ReactGA from "react-ga"
  
 export const initGA = () => {
-  ReactGA.initialize("UA-91016057-3")
+  ReactGA.initialize(process.env.google_analytics)
 }
  
 export const logPageView = () => {

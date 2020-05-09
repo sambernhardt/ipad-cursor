@@ -120,7 +120,6 @@ const Main = styled.div`
   padding: 48px 24px;
   box-sizing: border-box;
   font-family: ${({theme}) => theme.fonts.default};
-  /* cursor: url('/cursor.svg'), auto; */
 `;
 
 export default Home;
