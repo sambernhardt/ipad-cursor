@@ -8,10 +8,10 @@ const Container = styled.div`
     position: relative;
 `;
 
-const HoverLink = (props) => {    
+const NavLink = (props) => {    
     return (
         <Container {...props} />
     )
 }
 
-export default WithHover(HoverLink, 'block');
+export default WithHover(NavLink, 'block');

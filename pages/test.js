@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-import CursorWrapper from '../cursor/CursorWrapper';
 import WithHover from '../cursor/WithHover';
 
 const Link = WithHover(styled.div`

@@ -18,7 +18,7 @@ export default ({children}) => {
       <Fragment>
           <Reset/>
           <ThemeProvider theme={value ? dark : light}>
-              <CursorWrapper>
+              <CursorWrapper debug>
                 {children}
                 <GlobalStyle/>
               </CursorWrapper>

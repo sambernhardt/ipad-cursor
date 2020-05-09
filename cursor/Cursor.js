@@ -164,9 +164,9 @@ const CursorContainer = ({ debug }) => {
                 <span>{JSON.stringify({currentElement: currentElement ? true: false})}</span>
                 <span>{JSON.stringify({status})}</span>
                 <span>{JSON.stringify({exited})}</span>
-               <span> {JSON.stringify({elementType})}</span>
-               <span> {JSON.stringify({hovering})}</span>
-               <span> {JSON.stringify({textSize})}</span>
+                <span> {JSON.stringify({elementType})}</span>
+                <span> {JSON.stringify({hovering})}</span>
+                <span> {JSON.stringify({textSize})}</span>
             </Debug>}
             <Cursor
                 ref={cursorRef}

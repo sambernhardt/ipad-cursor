@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import HoverLink from './HoverLink';
+import NavLink from './NavLink';
 
 const Container = styled.div`
   display: flex;
@@ -22,9 +22,9 @@ const Header = () => {
         <Container>
             <Title>iPad Cursor</Title>
             <Links>
-                <HoverLink>Button 1</HoverLink>
-                <HoverLink>Button 2</HoverLink>
-                <HoverLink>Button 3</HoverLink>
+                <NavLink>Button 1</NavLink>
+                <NavLink>Button 2</NavLink>
+                <NavLink>Button 3</NavLink>
             </Links>
         </Container>
     )

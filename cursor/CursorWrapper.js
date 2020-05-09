@@ -13,13 +13,13 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const Wrapper = ({children}) => {
+const Wrapper = ({debug, children}) => {
   const [ mousePos, setMousePos ] = useState({ x: 0, y: 0 });
+
   const [ currentElement, setCurrentElement ] = useState();
   const [ textSize, setTextSize ] = useState(12);
   const [ status, setStatus ] = useState("");
   const [ elementType, setElementType ] = useState("");
-  const [ exitOrigin, setExitOrigin ] = useState("");
   const [ pressing, setPressing ] = useState(false);
   const [ showingCursor, showingCursorSet ] = useState(false);
 
@@ -48,11 +48,9 @@ const Wrapper = ({children}) => {
       setCurrentElement(null)
       setElementType(null)
     },
-    setExitOrigin: setExitOrigin,
     setStatus: setStatus,
     currentElement: currentElement,
     status: status,
-    exitOrigin: exitOrigin,
     elementType,
     textSize,
     pressing,
@@ -71,7 +69,7 @@ const Wrapper = ({children}) => {
     >
         <Context.Provider value={contextValue}>
             <GlobalStyle showingCursor={showingCursor} />
-            <Cursor/>
+            <Cursor debug/>
             {children}
         </Context.Provider>
     </div>
