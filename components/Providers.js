@@ -14,11 +14,14 @@ export default ({children}) => {
       setMounted(true)
     }, []);
 
+    let debug = true;
+    // debug = false;
+
     const body = 
       <Fragment>
           <Reset/>
           <ThemeProvider theme={value ? dark : light}>
-              <CursorProvider debug>
+              <CursorProvider debug={debug}>
                 {children}
                 <GlobalStyle/>
               </CursorProvider>

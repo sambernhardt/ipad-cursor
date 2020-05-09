@@ -27,7 +27,7 @@ const Provider = ({debug, children}) => {
     setMousePos({x: pageX, y: pageY})
   };
 
-  const contextValue = {
+  const context = {
     pos: mousePos,
     setCurrentElement: (el, type) => {
       setCurrentElement(el)
@@ -49,15 +49,15 @@ const Provider = ({debug, children}) => {
       setElementType(null)
     },
     setStatus: setStatus,
-    currentElement: currentElement,
     status: status,
+
+    currentElement: currentElement,
     elementType,
+
     textSize,
     pressing,
 
-    toggleCursor: () => {
-      showingCursorSet(!showingCursor)
-    },
+    toggleCursor: () => showingCursorSet(!showingCursor),
     showingCursor: showingCursor
   };
 
@@ -67,7 +67,7 @@ const Provider = ({debug, children}) => {
         onMouseDown={() => setPressing(true)}
         onMouseUp={() => setPressing(false)}
     >
-        <Context.Provider value={contextValue}>
+        <Context.Provider value={context}>
             <GlobalStyle showingCursor={showingCursor} />
             <Cursor debug={debug} />
             {children}

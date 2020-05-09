@@ -45,8 +45,15 @@ const Cursor = styled.div`
 `;
 
 const CursorContainer = ({ debug }) => {
-    const context = useContext(CursorContext);
-    const { pos, currentElement, textSize, status, elementType, pressing } = context;
+    const {
+        pos,
+        currentElement,
+        textSize,
+        status,
+        elementType,
+        pressing,
+        setStatus
+    } = useContext(CursorContext);
     
     const [ hovering, setHovering ] = useState(false);
     const [ duration, setDuration ] = useState(.5);
@@ -59,14 +66,12 @@ const CursorContainer = ({ debug }) => {
         width: '24px',
         height: '24px',
     };
-    
-    // status
-    useEffect(() => {
 
+    // when the currentElement or status changes
+    useEffect(() => {
         if (status == "entering" || status == "shifting") {
+            // setDuration(1);
             if (elementType == "block") {
-                setExited(false);
-                setDuration(1);
                 gsap.killTweensOf(cursorRef.current);
                 let snapTo = gsap.to(cursorRef.current, {
                     duration: .5,
@@ -77,7 +82,7 @@ const CursorContainer = ({ debug }) => {
                     width: currentElement.offsetWidth + "px",
                     borderRadius: '4px',
                     onComplete: () => {
-                        setHovering(true)
+                        setStatus("entered");
                         setShape("block")
                     }
                 });
@@ -85,18 +90,18 @@ const CursorContainer = ({ debug }) => {
         } else if (status == "exiting") {
             // kill all current animations for the block and clear the props it has added
             gsap.killTweensOf(cursorRef.current);
-            // gsap.set(cursorRef.current, {clearProps: 'all'});
-            setHovering(false);
+            // setStatus("");
             setShape("");
+            // setStatus("");
         }
     }, [currentElement, status]);
 
     useEffect(() => {
-        if (status == "exiting" && !hovering && !exited) {
-            // console.log("here", duration)
-            if (duration !== 0) {
+        if (status == "exiting" && !currentElement) {
+            // console.log(duration)
+            // if (duration > 0) {
                 let snapBackToCursor = gsap.to(cursorRef.current, {
-                    duration: duration,
+                    duration: .5,
                     ease: "elastic.out(1, .5)",
                     width: '24px',
                     height: '24px',
@@ -106,17 +111,15 @@ const CursorContainer = ({ debug }) => {
                     top: pos.y - 12,
                     borderRadius: '50%',
                     onComplete: () => {
-                        setExited(true)
-                        // setStatus("")
+                        setStatus("");
                     },
                 });
-                setDuration(duration - .01);
-            } else {
-                setExited(true)
-            }
-        } else if ((status == "entering" || status == "shifting") && elementType == "text" && !hovering) {
+                // setDuration(duration - .01 < 0 ? 0 : duration - .01);
+            // } else {
+                // setStatus("");
+            // }
+        } else if ((status == "entering" || status == "shifting") && elementType == "text") {
             gsap.killTweensOf(cursorRef.current);
-            setExited(false);
             gsap.to(cursorRef.current, {
                 duration: .5,
                 ease: "elastic.out(1, 1)",
@@ -126,20 +129,18 @@ const CursorContainer = ({ debug }) => {
                 y: (textSize / -2) + 10,
                 borderRadius: '1px',
                 onComplete: () => {
-                    setHovering(true)
-                    setExited(true)
+                    setStatus("entered");
                     setShape("text")
                 }
             });
-        // } else if 
-        } else if (exited) {
+        } else if (status == "") {
             gsap.killTweensOf(cursorRef.current);
-            setExited(true)
-            setDuration(.5);
+            // setStatus("");
+            // setDuration(1);
         }
     }, [pos]);
 
-    if (hovering && currentElement) {
+    if (status == "entered" && currentElement) {
         const amount = 5;
         const relativePos = getRelativePosition(pos, currentElement);
         const xMid = currentElement.clientWidth / 2;
@@ -157,21 +158,21 @@ const CursorContainer = ({ debug }) => {
         }
     }
 
+    
     return (
         <div>
             {debug && <Debug>
-                <span>{JSON.stringify({pos})}</span>
+                {/* <span>{JSON.stringify({pos})}</span> */}
                 <span>{JSON.stringify({currentElement: currentElement ? true: false})}</span>
                 <span>{JSON.stringify({status})}</span>
-                <span>{JSON.stringify({exited})}</span>
                 <span> {JSON.stringify({elementType})}</span>
-                <span> {JSON.stringify({hovering})}</span>
                 <span> {JSON.stringify({textSize})}</span>
+                <span> {JSON.stringify({duration})}</span>
             </Debug>}
             <Cursor
                 ref={cursorRef}
                 style={baseStyles}
-                className={[shape, pressing && "pressing"]}
+                className={[elementType, pressing && "pressing"]}
             />
         </div>
     )
