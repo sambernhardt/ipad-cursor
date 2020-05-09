@@ -3,7 +3,11 @@ import styled from 'styled-components';
 import CursorWrapper from '../cursor/CursorWrapper';
 import WithHover from '../cursor/WithHover';
 
-const Link = WithHover(styled.a`
+const Link = WithHover(styled.div`
+    width: 900px;
+    height: 900px;
+    border-radius: 8px;
+    border: 1px solid green;
     font-size: 48px;
     display: inline-block;
 `, 'block');
@@ -17,9 +21,7 @@ const Main = styled.div`
 `;
 
 export default () => (
-    <CursorWrapper>
-        <Main>
-            <Link>Test</Link>
-        </Main>
-    </CursorWrapper>
+    <Main>
+        <Link>Test</Link>
+    </Main>
 )

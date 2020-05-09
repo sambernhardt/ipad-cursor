@@ -19,7 +19,7 @@ export default (Component, type) => ({passThroughRef, ...props}) => {
         setHovering(false);
     }
 
-    let baseStyles;
+    let styles;
     if (hovering && currentElement) {
         const amount = 2;
         const relativePos = getRelativePosition(pos, currentElement);
@@ -28,8 +28,8 @@ export default (Component, type) => ({passThroughRef, ...props}) => {
         const xMove = (relativePos.x - xMid) / currentElement.offsetWidth * amount;
         const yMove = (relativePos.y - yMid) / currentElement.offsetHeight * amount;
 
-        if (elementType == "block" && xMove < 200 && yMove < 200) {
-            baseStyles = {
+        if (elementType == "block") {
+            styles = {
                 transform: `translate(${xMove}px, ${yMove}px)`,
             }
         }
@@ -38,7 +38,7 @@ export default (Component, type) => ({passThroughRef, ...props}) => {
     return <Component
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        style={baseStyles}
+        style={styles}
         ref={passThroughRef}
         {...props}
     />
