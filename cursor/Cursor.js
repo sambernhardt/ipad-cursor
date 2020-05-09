@@ -149,8 +149,6 @@ const CursorContainer = ({ debug }) => {
                 <span>{JSON.stringify({pos})}</span>
                 <span>{JSON.stringify(selectedElement.type)}</span>
                 <span>{JSON.stringify({status})}</span>
-                {/* <span> {JSON.stringify({type: selectedElement.type && selectedElement.type})}</span> */}
-                {/* <span> {JSON.stringify({textSize: selectedElement.textSize && selectedElement.textSize})}</span> */}
             </Debug>}
             <Cursor
                 ref={cursorRef}
