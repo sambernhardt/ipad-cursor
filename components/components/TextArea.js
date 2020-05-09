@@ -3,7 +3,6 @@ import { transparentize } from 'polished';
 import styled from 'styled-components';
 import autosize from 'autosize';
 
-import ActiveCursor from '../ActiveCursor';
 import WithHover from '../../cursor/WithHover';
 
 const Container = WithHover(styled.textarea`
@@ -29,7 +28,6 @@ const Container = WithHover(styled.textarea`
 
 const TextArea = (props) => {
     const [ myRef, setRef ] = useState();
-    const context = useContext(ActiveCursor);
     const ref = useCallback(node => {
         autosize(node)
         setRef(node)
