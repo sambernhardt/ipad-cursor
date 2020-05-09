@@ -70,10 +70,9 @@ const CursorContainer = ({ debug }) => {
     // when the currentElement or status changes
     useEffect(() => {
         if (status == "entering" || status == "shifting") {
-            // setDuration(1);
             if (elementType == "block") {
-                gsap.killTweensOf(cursorRef.current);
-                let snapTo = gsap.to(cursorRef.current, {
+                // gsap.killTweensOf(cursorRef.current);
+                gsap.to(cursorRef.current, {
                     duration: .5,
                     ease: "elastic.out(1, 1)",
                     left: currentElement.offsetLeft,
@@ -89,36 +88,34 @@ const CursorContainer = ({ debug }) => {
             }
         } else if (status == "exiting") {
             // kill all current animations for the block and clear the props it has added
-            gsap.killTweensOf(cursorRef.current);
-            // setStatus("");
+            // gsap.killTweensOf(cursorRef.current);
             setShape("");
-            // setStatus("");
         }
     }, [currentElement, status]);
 
     useEffect(() => {
+        // general exit handling
+        if (!(status == "entering" || status == "shifting")) {
+        }
+        
         if (status == "exiting" && !currentElement) {
-            // console.log(duration)
-            // if (duration > 0) {
-                let snapBackToCursor = gsap.to(cursorRef.current, {
-                    duration: .5,
-                    ease: "elastic.out(1, .5)",
-                    width: '24px',
-                    height: '24px',
-                    x: 0,
-                    y: 0,
-                    left: pos.x - 12,
-                    top: pos.y - 12,
-                    borderRadius: '50%',
-                    onComplete: () => {
-                        setStatus("");
-                    },
-                });
-                // setDuration(duration - .01 < 0 ? 0 : duration - .01);
-            // } else {
-                // setStatus("");
-            // }
+            gsap.killTweensOf(cursorRef.current);
+            gsap.to(cursorRef.current, {
+                duration: .5,
+                ease: "elastic.out(1, .5)",
+                width: '24px',
+                height: '24px',
+                x: 0,
+                y: 0,
+                left: pos.x - 12,
+                top: pos.y - 12,
+                borderRadius: '50%',
+                onComplete: () => {
+                    setStatus("");
+                },
+            });
         } else if ((status == "entering" || status == "shifting") && elementType == "text") {
+            // text cursor handling
             gsap.killTweensOf(cursorRef.current);
             gsap.to(cursorRef.current, {
                 duration: .5,
@@ -133,30 +130,26 @@ const CursorContainer = ({ debug }) => {
                     setShape("text")
                 }
             });
-        } else if (status == "") {
-            gsap.killTweensOf(cursorRef.current);
-            // setStatus("");
-            // setDuration(1);
+        }
+        if (status == "entered" && currentElement) {
+            const amount = 5;
+            const relativePos = getRelativePosition(pos, currentElement);
+            const xMid = currentElement.clientWidth / 2;
+            const yMid = currentElement.clientHeight / 2;
+            const xMove = (relativePos.x - xMid) / currentElement.clientWidth * amount;
+            const yMove = (relativePos.y - yMid) / currentElement.clientHeight * amount;
+    
+            if (elementType == "block") {
+                baseStyles = {
+                    left: currentElement.offsetLeft + xMove,
+                    top: currentElement.offsetTop + yMove,
+                    height: currentElement.offsetHeight + "px",
+                    width: currentElement.offsetWidth + "px",
+                }
+            }
         }
     }, [pos]);
 
-    if (status == "entered" && currentElement) {
-        const amount = 5;
-        const relativePos = getRelativePosition(pos, currentElement);
-        const xMid = currentElement.clientWidth / 2;
-        const yMid = currentElement.clientHeight / 2;
-        const xMove = (relativePos.x - xMid) / currentElement.clientWidth * amount;
-        const yMove = (relativePos.y - yMid) / currentElement.clientHeight * amount;
-
-        if (elementType == "block") {
-            baseStyles = {
-                left: currentElement.offsetLeft + xMove,
-                top: currentElement.offsetTop + yMove,
-                height: currentElement.offsetHeight + "px",
-                width: currentElement.offsetWidth + "px",
-            }
-        }
-    }
 
     
     return (
