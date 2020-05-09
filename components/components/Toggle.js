@@ -47,15 +47,15 @@ const ToggleContainer = styled.div`
 `;
 
 export default ({}) => {
-  const context = useContext(CursorContext);
+  const {toggleCursor, showingCursor} = useContext(CursorContext);
 
   const handleClick = () => {
-    context.toggleCursor();
+    toggleCursor();
   }
 
   return (
     <Container onClick={handleClick}>
-      <ToggleContainer showingCursor={context.showingCursor}>
+      <ToggleContainer showingCursor={showingCursor}>
         <Dot />
       </ToggleContainer>
       <span>Show cursor</span>

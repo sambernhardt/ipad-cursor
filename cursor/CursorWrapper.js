@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from 'styled-components';
 import Cursor from './Cursor';
 import Context from './CursorContext';
 

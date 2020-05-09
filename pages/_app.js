@@ -1,5 +1,6 @@
 import React from 'react';
 import App from 'next/app';
+
 import Providers from '../components/Providers.js';
 
 export default class MyApp extends App {
@@ -13,8 +14,8 @@ export default class MyApp extends App {
   render () {
     const { Component, pageProps } = this.props;
     return (
-      <Providers showingCursor={this.state.active}>
-        <Component {...pageProps} toggleCursor={() => this.setState({active: !this.state.active})} />
+      <Providers>
+        <Component {...pageProps} />
       </Providers>
     )
   }

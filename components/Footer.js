@@ -1,8 +1,7 @@
-import { useContext } from 'react';
 import styled from 'styled-components';
-import WithHover from '../cursor/WithHover';
+
 import Toggle from './components/Toggle';
-import CursorContext from '../cursor/CursorContext';
+import WithHover from '../cursor/WithHover';
 
 const Container = styled.div`
   display: flex;
@@ -25,7 +24,6 @@ const Heading = styled.div`
 `;
 
 export default () => {
-  const context = useContext(CursorContext);
 
   return (
     <Container>

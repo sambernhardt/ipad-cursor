@@ -1,22 +1,14 @@
-import { Fragment, useState, useEffect, createContext } from 'react';
-import { createGlobalStyle, ThemeProvider } from 'styled-components'
+import { Fragment, useState, useEffect } from 'react';
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { Reset } from 'styled-reset';
 import useDarkMode from 'use-dark-mode';
+
 import {light, dark} from '../theme';
-import ActiveCursor from './ActiveCursor';
 import CursorWrapper from '../cursor/CursorWrapper';
 
 export default ({children}) => {
     const [mounted, setMounted] = useState(false);
-    const [showingCursor, setShowingCursor] = useState(false);
     const {value} = useDarkMode(false, { storageKey: null });
-
-    const context = {
-      toggleCursor: () => {
-        setShowingCursor(!showingCursor)
-      },
-      showingCursor: showingCursor
-    }
 
     useEffect(() => {
       setMounted(true)
@@ -26,12 +18,10 @@ export default ({children}) => {
       <Fragment>
           <Reset/>
           <ThemeProvider theme={value ? dark : light}>
-            {/* <ActiveCursor.Provider value={context}> */}
               <CursorWrapper>
                 {children}
-                <GlobalStyle showingCursor={showingCursor} />
+                <GlobalStyle/>
               </CursorWrapper>
-            {/* </ActiveCursor.Provider> */}
           </ThemeProvider>
       </Fragment>;
 
