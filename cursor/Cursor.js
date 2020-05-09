@@ -26,7 +26,7 @@ const Cursor = styled.div`
     height: 24px;
     position: absolute;
     background: ${({theme}) => transparentize(.5, theme.colors.cursor)};
-    border-radius: 50%;
+    border-radius: 12px;
     z-index: -1;
 
     transition: opacity .3s;
@@ -100,7 +100,7 @@ const CursorContainer = ({ debug }) => {
                 y: 0,
                 left: pos.x - 12,
                 top: pos.y - 12,
-                borderRadius: '50%',
+                borderRadius: '12px',
                 onComplete: () => {
                     setStatus("");
                 },

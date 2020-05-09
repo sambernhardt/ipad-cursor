@@ -34,7 +34,7 @@ export default (Component, type, config) => ({passThroughRef, ...props}) => {
         const relativePos = getRelativePosition(pos, selectedElement.el);
         const xMid = selectedElement.el.offsetWidth / 2;
         const yMid = selectedElement.el.offsetHeight / 2;
-        const xMove = (relativePos.x - xMid) / selectedElement.el.offsetWidth * amount;
+        const xMove = (relativePos.x - xMid) / selectedElement.el.offsetHeight * amount;
         const yMove = (relativePos.y - yMid) / selectedElement.el.offsetHeight * amount;
         
         styles = {

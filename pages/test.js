@@ -3,12 +3,18 @@ import styled from 'styled-components';
 import WithHover from '../cursor/WithHover';
 
 const Link = WithHover(styled.div`
-    width: 300px;
-    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 350px;
+    height: 350px;
     border-radius: 8px;
-    border: 1px solid green;
-    font-size: 48px;
-    display: inline-block;
+    font-size: 24px;
+    transition-duration: .2s;
+    &:hover {
+        transition-duration: 0s;
+    }
+
 `, 'block', {
     hoverOffset: 20
 });
