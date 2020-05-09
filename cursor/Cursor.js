@@ -95,9 +95,6 @@ const CursorContainer = ({ debug }) => {
 
     useEffect(() => {
         // general exit handling
-        if (!(status == "entering" || status == "shifting")) {
-        }
-        
         if (status == "exiting" && !currentElement) {
             gsap.killTweensOf(cursorRef.current);
             gsap.to(cursorRef.current, {
@@ -130,8 +127,7 @@ const CursorContainer = ({ debug }) => {
                     setShape("text")
                 }
             });
-        }
-        if (status == "entered" && currentElement) {
+        } else if (currentElement) {
             const amount = 5;
             const relativePos = getRelativePosition(pos, currentElement);
             const xMid = currentElement.clientWidth / 2;
@@ -150,8 +146,6 @@ const CursorContainer = ({ debug }) => {
         }
     }, [pos]);
 
-
-    
     return (
         <div>
             {debug && <Debug>
