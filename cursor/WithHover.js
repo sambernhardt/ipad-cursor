@@ -18,17 +18,17 @@ export default (Component, type) => ({passThroughRef, ...props}) => {
     }
 
     let baseStyles;
-    if (hovering) {
+    if (hovering && currentElement) {
         const amount = 2;
         const relativePos = getRelativePosition(pos, currentElement);
-        const xMid = currentElement.clientWidth / 2;
-        const yMid = currentElement.clientHeight / 2;
-        const xMove = (relativePos.x - xMid) / currentElement.clientWidth * amount;
-        const yMove = (relativePos.y - yMid) / currentElement.clientHeight * amount;
+        const xMid = currentElement.offsetWidth / 2;
+        const yMid = currentElement.offsetHeight / 2;
+        const xMove = (relativePos.x - xMid) / currentElement.offsetWidth * amount;
+        const yMove = (relativePos.y - yMid) / currentElement.offsetHeight * amount;
 
         if (elementType == "block" && xMove < 200 && yMove < 200) {
             baseStyles = {
-                transform: `translate(${xMove}px, ${yMove}px) scale(1.1)`,
+                transform: `translate(${xMove}px, ${yMove}px)`,
             }
         }
     }

@@ -6,8 +6,6 @@ import { gsap } from 'gsap';
 import CursorContext from './CursorContext';
 import { getRelativePosition } from './utils';
 
-const debug = false;
-
 const Debug = styled.div`
     background: green;
     width: 100vw;
@@ -64,7 +62,6 @@ const CursorContainer = ({ debug }) => {
     
     // status
     useEffect(() => {
-
 
         if (status == "entering" || status == "shifting") {
             if (elementType == "block") {
@@ -157,14 +154,6 @@ const CursorContainer = ({ debug }) => {
                 height: currentElement.offsetHeight + "px",
                 width: currentElement.offsetWidth + "px",
             }
-        } else if (elementType == "text") {
-            // gsap.killTweensOf(cursorRef.current);
-            // baseStyles = {
-            //     height: textSize,
-            //     width: "3px",
-            //     left: pos.x,
-            //     top: pos.y - textSize,
-            // }
         }
     }
 
