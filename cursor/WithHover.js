@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
-import CursorContext from './CursorContext';
+import CursorContext from './Context';
 
 import { getRelativePosition } from './utils';
 

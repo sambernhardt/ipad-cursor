@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import styled from 'styled-components';
 import { transparentize } from 'polished';
 import WithHover from '../../cursor/WithHover';
-import CursorContext from '../../cursor/CursorContext';
+import CursorContext from '../../cursor/Context';
 
 const height = 20;
 

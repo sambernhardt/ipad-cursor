@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { transparentize } from 'polished';
 
 import { gsap } from 'gsap';
-import CursorContext from './CursorContext';
+import CursorContext from './Context';
 import { getRelativePosition } from './utils';
 
 const Debug = styled.div`

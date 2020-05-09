@@ -4,7 +4,7 @@ import { Reset } from 'styled-reset';
 import useDarkMode from 'use-dark-mode';
 
 import {light, dark} from '../theme';
-import CursorWrapper from '../cursor/CursorWrapper';
+import CursorProvider from '../cursor/Provider';
 
 export default ({children}) => {
     const [mounted, setMounted] = useState(false);
@@ -18,10 +18,10 @@ export default ({children}) => {
       <Fragment>
           <Reset/>
           <ThemeProvider theme={value ? dark : light}>
-              <CursorWrapper debug>
+              <CursorProvider debug>
                 {children}
                 <GlobalStyle/>
-              </CursorWrapper>
+              </CursorProvider>
           </ThemeProvider>
       </Fragment>;
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { createGlobalStyle } from 'styled-components';
 import Cursor from './Cursor';
-import Context from './CursorContext';
+import Context from './Context';
 
 const GlobalStyle = createGlobalStyle`
   body, input, textarea, a {
@@ -13,7 +13,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const Wrapper = ({debug, children}) => {
+const Provider = ({debug, children}) => {
   const [ mousePos, setMousePos ] = useState({ x: 0, y: 0 });
 
   const [ currentElement, setCurrentElement ] = useState();
@@ -76,4 +76,4 @@ const Wrapper = ({debug, children}) => {
   )
 };
 
-export default Wrapper;
+export default Provider;

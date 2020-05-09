@@ -1,20 +1,20 @@
 # Basic usage
 
-## Add the Context Wrapper to a page
+## Add the CursorProvider to a page
 ```javascript
 // app.js
 
 import App from 'next/app';
-import CursorWrapper from '../cursor/CursorWrapper';
+import CursorProvider from '../cursor/Provider';
 
 export default class MyApp extends App {
   render () {
     const { Component, pageProps } = this.props;
     
     return (
-      <CursorWrapper>
+      <CursorProvider>
         <Component {...pageProps} />
-      </CursorWrapper>
+      </CursorProvider>
     )
   }
 }
