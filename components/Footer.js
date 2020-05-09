@@ -13,7 +13,6 @@ const Container = styled.div`
 const Link = WithHover(styled.a`
   color: ${({theme}) => theme.colors.blue};
   text-decoration: none;
-  pointer: none;
   z-index: 99;
   ${({ showingCursor }) => !showingCursor && `
     cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAZdEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjbQg61aAAAADUlEQVQYV2P4//8/IwAI/QL/+TZZdwAAAABJRU5ErkJggg=='),
