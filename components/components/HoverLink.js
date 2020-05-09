@@ -1,8 +1,7 @@
 import { useState, useContext } from 'react';
 import styled from 'styled-components';
 
-import WithHover from './Cursor/WithHover';
-import CursorContext from './Cursor/CursorContext';
+import WithHover from '../../cursor/WithHover';
 
 const Container = styled.div`
     padding: 8px 16px;

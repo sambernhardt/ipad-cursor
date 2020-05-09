@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import CursorContext from './CursorContext';
 
-import { getRelativePosition } from '../../utils';
+import { getRelativePosition } from './utils';
 
 export default (Component, type) => ({passThroughRef, ...props}) => {
     const context = useContext(CursorContext);

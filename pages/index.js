@@ -1,10 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
-import Header from '../components/Header';
-import Hero from '../components/Hero';
-import Footer from '../components/Footer';
-import CursorWrapper from '../components/Cursor/CursorWrapper';
+import Header from '../components/components/Header';
+import Hero from '../components/components/Hero';
+import Footer from '../components/components/Footer';
+import CursorWrapper from '../cursor/CursorWrapper';
 import GoogleAnalytics from "../components/GoogleAnalytics/Layout.js"
 
 const Home = () => {

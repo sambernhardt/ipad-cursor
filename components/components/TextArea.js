@@ -3,8 +3,8 @@ import { transparentize } from 'polished';
 import styled from 'styled-components';
 import autosize from 'autosize';
 
-import ActiveCursor from './ActiveCursor';
-import WithHover from './Cursor/WithHover';
+import ActiveCursor from '../ActiveCursor';
+import WithHover from '../../cursor/WithHover';
 
 const Container = WithHover(styled.textarea`
   font-size: 32px;

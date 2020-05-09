@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 import styled from 'styled-components';
-import WithHover from '../cursor/WithHover';
-import Toggle from './components/Toggle';
-import ActiveCursor from './ActiveCursor';
+import WithHover from '../../cursor/WithHover';
+import Toggle from './Toggle';
+import ActiveCursor from '../ActiveCursor';
 
 const Container = styled.div`
   display: flex;

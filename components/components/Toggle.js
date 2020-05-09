@@ -1,9 +1,9 @@
 import { useContext } from 'react';
 import styled from 'styled-components';
 import { transparentize } from 'polished';
-import WithHover from './Cursor/WithHover';
+import WithHover from '../../cursor/WithHover';
 
-import ActiveCursor from './ActiveCursor';
+import ActiveCursor from '../ActiveCursor';
 
 const height = 20;
 
