@@ -1,6 +1,6 @@
 import React, { Component } from "react"
  
-import { initGA, logPageView } from "./googleAnalytics.js"
+import { initGA, logPageView } from "./init.js"
  
 export default class Layout extends Component {
   componentDidMount () {

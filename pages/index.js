@@ -5,12 +5,11 @@ import Header from '../components/Header';
 import Hero from '../components/Hero';
 import Footer from '../components/Footer';
 import CursorWrapper from '../components/Cursor/CursorWrapper';
-import Layout from "../components/layout.js"
+import GoogleAnalytics from "../components/GoogleAnalytics/Layout.js"
 
 const Home = () => {
 
-  return (
-    <Layout>
+  let body = (
       <CursorWrapper>
         <Main>
             <Header />
@@ -18,8 +17,13 @@ const Home = () => {
             <Footer/>
         </Main>
       </CursorWrapper>
-    </Layout>
-  )
+  );
+
+  if (false) {
+    return <GoogleAnalytics>{body}</GoogleAnalytics>
+  }
+
+  return body
 };
 
 const Main = styled.div`
