@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import styled from 'styled-components';
-import WithHover from './WithHover';
+import WithHover from './Cursor/WithHover';
 import Toggle from './Toggle';
 import ActiveCursor from './ActiveCursor';
 

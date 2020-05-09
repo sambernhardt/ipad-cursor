@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import styled from 'styled-components';
 import { transparentize } from 'polished';
-import WithHover from './WithHover';
+import WithHover from './Cursor/WithHover';
 
 import ActiveCursor from './ActiveCursor';
 

@@ -6,7 +6,6 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* margin-bottom: 24px; */
 `;
 
 const Title = styled.h2`

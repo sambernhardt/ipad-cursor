@@ -21,7 +21,6 @@ export default ({children}) => {
       setMounted(true)
     }, []);
 
-
     const body = 
       <Fragment>
           <Reset/>
