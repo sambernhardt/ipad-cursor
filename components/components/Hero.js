@@ -11,15 +11,24 @@ const Container = styled.div`
   margin-bottom: 24px;
 `;
 
-
-
-
 const Hero = () => {
     return (
         <Container>
-            <TextArea style={{ fontSize: '64px' }} defaultValue="Hover over this text to see the cursor change size." focus/>
-            <TextArea defaultValue="Different sized text will change the cursor size appropriately."/>
-            <TextArea style={{ fontSize: '14px' }} defaultValue="Even teeny tiny text works."/>
+            <TextArea
+                style={{ fontSize: '64px' }}
+                defaultValue="Hover over this text to see the cursor change size."
+                focus
+                placeholder="Header"
+            />
+            <TextArea
+                defaultValue="Different sized text will change the cursor size appropriately."
+                placeholder="Subheader"
+            />
+            <TextArea
+                style={{ fontSize: '14px' }}
+                defaultValue="Even teeny tiny text works."
+                placeholder="Small text"
+            />
         </Container>
     )
 }
