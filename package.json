@@ -1,7 +1,7 @@
 {
-  "name": "next-auto-detect-theme",
+  "name": "ipad-cursor",
   "version": "0.0.1",
-  "description": "A template for using Next.js with auto-detected theming for styled-components.",
+  "description": "A web implementation of the new iPadOS cursor",
   "main": "index.js",
   "scripts": {
     "dev": "next",

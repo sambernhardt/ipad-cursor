@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Header from '../components/components/Header';
 import Hero from '../components/components/Hero';
 import Footer from '../components/components/Footer';
-import GoogleAnalytics from "../components/GoogleAnalytics/Layout.js"
+import GoogleAnalytics from "../components/GoogleAnalytics/layout.js"
 
 const Main = styled.div`
   width: 100%;

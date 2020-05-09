@@ -17,7 +17,7 @@ export default ({children}) => {
     }, []);
 
     let debug = true;
-    // debug = false;
+    debug = false;
 
     const body = 
       <Fragment>
