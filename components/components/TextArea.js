@@ -10,6 +10,7 @@ const Container = WithHover(styled.textarea`
   width: 100%;
   background: transparent;
   color: ${({ theme }) => theme.colors.body};
+  font-family: ${({theme}) => theme.fonts.default};
   border: none;
   margin-bottom: 24px;
   resize: none; 
