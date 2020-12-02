@@ -41,3 +41,4 @@ export default WithHover(<Component />, 'block');
 
 ### Caveats:
 - To move the contents of the hovered component, the component must have a display type of `inline-block` or `block`. CSS transforms don't work on inline elements.
+
