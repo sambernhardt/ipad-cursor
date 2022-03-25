@@ -2,6 +2,8 @@
 
 `npm i`
 
+`npx next build`
+
 `npm run start`
 
 ![Preview](https://github.com/sambernhardt/ipad-cursor/blob/master/public/preview.gif)
